@@ -1,5 +1,13 @@
-    Buildings
-
+    Buildings(level upgrades)
+        defenses
+        gold buildings, merchant or some ish
+        food buildings
+        faith buildings
     Actions
-
+        morale actions, feasts
+        faith actions, rituals
     Events
+        date events
+        basic change of stats through years
+        rand events
+        game enders
