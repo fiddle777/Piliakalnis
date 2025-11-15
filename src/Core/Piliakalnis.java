@@ -1,5 +1,11 @@
 package Core;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+
 public class Piliakalnis {
     public int year;
     public int yearsOfRule;

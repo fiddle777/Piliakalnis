@@ -1,0 +1,7 @@
+TD0:
+add normal console launcher intellij is ugly
+clean up outputs
+remove tempdels
+add proper events and actions
+add intro
+add outro

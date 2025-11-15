@@ -1,13 +1,13 @@
     Buildings(level upgrades)
         defenses
         gold buildings, merchant or some ish
-        food buildings
-        faith buildings
+        food buildings, farming, hunting, foraging
+        faith buildings, add some history flave
     Actions
         morale actions, feasts
-        faith actions, rituals
+        faith actions, rituals maybe
     Events
-        date events
+        historical date events
         basic change of stats through years
-        rand events
+        rand events, good and bad
         game enders

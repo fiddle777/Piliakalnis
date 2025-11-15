@@ -1,6 +1,6 @@
 package Core;
 
-import Actions.BuildWallAction;
+import Actions.Action_Build_BuildWall;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -9,8 +9,9 @@ public class GameController {
     private final Piliakalnis piliakalnis;
     private final Scanner scanner = new Scanner(System.in);
     private final List<GameAction> allActions = List.of(
-            new BuildWallAction()
+            new Action_Build_BuildWall()
     );
+    private final EventManager eventManager = new EventManager();
     private final List<String> storyLog = new ArrayList<>();
     public GameController(Piliakalnis piliakalnis) {
         this.piliakalnis = piliakalnis;
@@ -64,42 +65,37 @@ public class GameController {
         System.out.println("0] Baigti zaidima");
     }
     private boolean getUserInput() {
-        int oldGold = piliakalnis.gold;
-        int oldMorale = piliakalnis.morale;
-        int oldFood = piliakalnis.food;
-        int oldPopulation = piliakalnis.population;
-        int oldDefense = piliakalnis.defense;
-        int oldFaith = piliakalnis.faith;
+
         System.out.println("\tKa norite daryti?");
         String input = scanner.nextLine();
-        if(input.equals("0")) {
-            return false;
-        } else{
-            try{
-                int choice = Integer.parseInt(input);
-                if(choice > 0 && choice <= allActions.size()) {
-                    System.out.println("-----DEBUGPasirinkote: " + allActions.get(choice - 1));
-                    GameAction actionChoice = allActions.get(choice - 1);
-                    if(actionChoice.isAvailable(piliakalnis)) {
-                        ActionResult actionResult = actionChoice.execute(piliakalnis);
-                        storyLog.add(actionResult.storyText);
-                        cls();
-                        showTurnSummary(actionResult.storyText, oldGold, oldMorale, oldFood, oldPopulation, oldDefense, oldFaith);
-                    } else{
-                        System.out.println("NEGALIME ATLIKTI SIO VEIKSMO, VALDOVE!");
-                    }
-                } else{
-                    System.out.println("NETEISINGAS PASIRINKIMAS, VALDOVE!");
-                }
-            } catch(NumberFormatException e){
-                System.out.println("IVESK SKAICIU CIA AS DAUZTAS AR TU AS NESUPRANTU");
-            }
+
+        if (input.equals("0")) return false;
+
+        int choice;
+        try {
+            choice = Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            System.out.println("IVESK SKAICIU");
+            return true;
         }
+
+        if (choice < 1 || choice > allActions.size()) {
+            System.out.println("NETEISINGAS PASIRINKIMAS, VALDOVE!");
+            return true;
+        }
+
+        GameAction action = allActions.get(choice - 1);
+
+        if (!action.isAvailable(piliakalnis)) {
+            System.out.println("NEGALIME ATLIKTI SIO VEIKSMO, VALDOVE!");
+            return true;
+        }
+
+        processTurn(action);
         return true;
     }
-
     private void showTurnSummary(String story, int oldGold, int oldMorale, int oldFood, int oldPopulation, int oldDefense, int oldFaith) {
-        System.out.println("-----TURNOS SANTRAUKA KA BLET-----");
+        System.out.println("-----IVYKIAI OR SOME ISH-----");
         System.out.println("Metai: " + piliakalnis.year);
         System.out.println("Auksas: " + oldGold + " -> " + piliakalnis.gold);
         System.out.println("Valia:  " + oldMorale + " -> " + piliakalnis.morale);
@@ -115,4 +111,46 @@ public class GameController {
         scanner.nextLine();
     }
 
+    private void processTurn(GameAction action) {
+
+        // snapshot old stats
+        int oldGold = piliakalnis.gold;
+        int oldMorale = piliakalnis.morale;
+        int oldFood = piliakalnis.food;
+        int oldPopulation = piliakalnis.population;
+        int oldDefense = piliakalnis.defense;
+        int oldFaith = piliakalnis.faith;
+
+        // execute main action of the turn
+        ActionResult actionResult = action.execute(piliakalnis);
+
+        // roll events
+        List<EventResult> eventResults = eventManager.rollEvents(piliakalnis);
+
+        // build final combined turn story
+        String story = buildTurnStory(actionResult, eventResults);
+
+        // print turn summary
+        cls();
+        showTurnSummary(story, oldGold, oldMorale, oldFood, oldPopulation, oldDefense, oldFaith);
+    }
+    private String buildTurnStory(ActionResult actionResult, List<EventResult> eventResults) {
+        StringBuilder sb = new StringBuilder();
+
+        // main action story
+        if (actionResult != null && actionResult.storyText != null) {
+            sb.append(actionResult.storyText);
+            storyLog.add(actionResult.storyText);
+        }
+
+        // events story
+        if (eventResults != null) {
+            for (EventResult er : eventResults) {
+                sb.append("\n").append(er.getStoryText());
+                storyLog.add(er.getStoryText());
+            }
+        }
+
+        return sb.toString();
+    }
 }

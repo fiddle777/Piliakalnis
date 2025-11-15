@@ -4,7 +4,7 @@ import Core.ActionResult;
 import Core.GameAction;
 import Core.Piliakalnis;
 
-public class BuildWallAction implements GameAction {
+public class Action_Build_BuildWall implements GameAction {
 
     @Override
     public String getName() {
