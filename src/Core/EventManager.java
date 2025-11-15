@@ -1,6 +1,6 @@
 package Core;
 
-import Events.Event_Notification_LowGold;
+import Events.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +12,11 @@ public class EventManager {
 
     public EventManager(){
         allEvents.add(new Event_Notification_LowGold());
+        allEvents.add(new Event_Notification_LowFood());
+        allEvents.add(new Event_Notification_LowMorale());
+        allEvents.add(new Event_Notification_LowPopulation());
+        allEvents.add(new Event_Notification_LowDefense());
+        allEvents.add(new Event_Notification_LowFaith());
     }
 
     public List<EventResult> rollEvents(Piliakalnis p){
