@@ -6,4 +6,13 @@ public interface GameAction {
     String getCategory2();
     boolean isAvailable(Piliakalnis p);
     ActionResult execute(Piliakalnis p);
+    default String getCostDescription() {
+        return "";
+    }
+    default String getRequirementDescription() {
+        return "";
+    }
+    default String getDescription() {
+        return "";
+    }
 }

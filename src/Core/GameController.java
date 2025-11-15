@@ -30,16 +30,22 @@ public class GameController {
             }
         }
     }
-
     private void showMainMenu() {
-        System.out.println("Piliakalnis_Name"); // Replace with actual name if available
-        System.out.println(piliakalnis.year + "AD, " + piliakalnis.yearsOfRule + " metu valdzioje\n" +
-                "Gyventojai: " + piliakalnis.population + "|| " +
-                "Turtas: " + piliakalnis.gold + " || " +
-                "Maistas: " + piliakalnis.food + " || " +
-                "Gynyba: " + piliakalnis.defense + " || " +
-                "Tikejimas: " + piliakalnis.faith + " || " +
-                "Pavaldiniu valia: " + piliakalnis.morale);
+        System.out.println("==================================================");
+        System.out.println("                 PILIAKALNIS");
+        System.out.println("==================================================");
+        System.out.println("Metai: " + piliakalnis.year + " AD");
+        System.out.println("Metai Valdzioje: " + piliakalnis.yearsOfRule);
+        System.out.println("--------------------------------------------------");
+
+        System.out.printf("Gyventojai:     %4d%n", piliakalnis.population);
+        System.out.printf("Auksas:         %4d%n", piliakalnis.gold);
+        System.out.printf("Maistas:        %4d%n", piliakalnis.food);
+        System.out.printf("Gynyba:         %4d%n", piliakalnis.defense);
+        System.out.printf("Tikejimas:      %4d%n", piliakalnis.faith);
+        System.out.printf("Valdovo valia:  %4d%n", piliakalnis.morale);
+
+        System.out.println("==================================================");
     }
     public static void cls() {
         try {
@@ -55,14 +61,28 @@ public class GameController {
         }
     }
     private void showActionsMenu() {
-        System.out.println("\tGalimi veiksmai:");
-        for (int i = 0; i < allActions.size(); i++) {
-            GameAction gameAction = allActions.get(i);
-            if(gameAction.isAvailable(piliakalnis)) {
-                System.out.println((i + 1) + "] " + gameAction.getName());
+        System.out.println("GALIMI VEIKSMAI:");
+        System.out.println("--------------------------------------------------");
+        for(int i = 0; i < allActions.size(); i++) {
+            GameAction action = allActions.get(i);
+            boolean available = action.isAvailable(piliakalnis);
+            String availabilityMark = available ? "" : " (NEGALIMA)";
+            System.out.printf("%d) %-30s [%s / %s]%s%n",
+                    i + 1,
+                    action.getName(),
+                    action.getCategory1(),
+                    action.getCategory2(),
+                    availabilityMark
+            );
+            if(action.getCostDescription() != null && !action.getCostDescription().isEmpty()) {
+                System.out.printf("    Kaina: %s%n", action.getCostDescription());
             }
+            if(action.getRequirementDescription() != null && !action.getRequirementDescription().isEmpty()){
+                System.out.printf("    Reikalavimai: %s%n", action.getRequirementDescription());
+            }
+            System.out.println("--------------------------------------------------");
         }
-        System.out.println("0] Baigti zaidima");
+        System.out.println("0) Baigti zaidima");
     }
     private boolean getUserInput() {
 
@@ -94,23 +114,16 @@ public class GameController {
         processTurn(action);
         return true;
     }
-    private void showTurnSummary(String story, int oldGold, int oldMorale, int oldFood, int oldPopulation, int oldDefense, int oldFaith) {
-        System.out.println("-----IVYKIAI OR SOME ISH-----");
-        System.out.println("Metai: " + piliakalnis.year);
-        System.out.println("Auksas: " + oldGold + " -> " + piliakalnis.gold);
-        System.out.println("Valia:  " + oldMorale + " -> " + piliakalnis.morale);
-        System.out.println("Gynyba: " + oldDefense + " -> " + piliakalnis.defense);
-        System.out.println("Tikėjimas: " + oldFaith + " -> " + piliakalnis.faith);
-        System.out.println("Maistas: " + oldFood + " -> " + piliakalnis.food);
-        System.out.println("--------------------------");
-        if(story != null && !story.isEmpty()) {
-            System.out.println("\nISTORIJA: ");
-            System.out.println(story);
-        }
-        System.out.println("PRESSANYKEYTOCONTINUE...");
+    private void showTurnSummary(String story, int oldGold, int oldMorale, int oldFood,
+                                 int oldPopulation, int oldDefense, int oldFaith) {
+
+        printTurnHeader();
+        printResourceDiffs(oldGold, oldMorale, oldFood, oldPopulation, oldDefense, oldFaith);
+        printStoryBlock(story);
+
+        System.out.println("Spauskite ENTER, kad testi...");
         scanner.nextLine();
     }
-
     private void processTurn(GameAction action) {
 
         // snapshot old stats
@@ -152,5 +165,34 @@ public class GameController {
         }
 
         return sb.toString();
+    }
+    private void printTurnHeader() {
+        System.out.println("==================================================");
+        System.out.println("            PILIAKALNIS - " + piliakalnis.year + " AD");
+        System.out.println("==================================================");
+        System.out.println("Metai Valdzioje: " + piliakalnis.yearsOfRule);
+        System.out.println();
+    }
+    private void printResourceDiffs(int oldGold, int oldMorale, int oldFood,
+                                    int oldPopulation, int oldDefense, int oldFaith) {
+
+        System.out.println("POKYCIAI:");
+        System.out.println("--------------------------------------------------");
+        System.out.printf("Auksas:     %4d - %4d%n", oldGold, piliakalnis.gold);
+        System.out.printf("Maistas:    %4d - %4d%n", oldFood, piliakalnis.food);
+        System.out.printf("Gynyba:     %4d - %4d%n", oldDefense, piliakalnis.defense);
+        System.out.printf("Tikejimas:  %4d - %4d%n", oldFaith, piliakalnis.faith);
+        System.out.printf("Valia:      %4d - %4d%n", oldMorale, piliakalnis.morale);
+        System.out.printf("Zmonės:     %4d - %4d%n", oldPopulation, piliakalnis.population);
+        System.out.println("--------------------------------------------------");
+    }
+
+    private void printStoryBlock(String story) {
+        if (story == null || story.isEmpty()) return;
+
+        System.out.println("\nIVYKIAI:");
+        System.out.println("--------------------------------------------------");
+        System.out.println(story);
+        System.out.println("--------------------------------------------------");
     }
 }

@@ -30,7 +30,19 @@ public class Action_Build_BuildWall implements GameAction {
     public ActionResult execute(Piliakalnis p) {
         p.gold -= 100;
         p.defense += 20;
-        String storyText = "KRC PASKUI NORMALIAI PARASYSIM SIUTUOS DALYKUS Jus statote gynybines sienas aplink savo piliakalnį. Tai padidina jūsų gynybą, bet kainuoja kapeiku";
+        String storyText = "Pastatytos gynybines sienos aplink piliakalni. Padidinta piliakalnio gynyba.";
         return new ActionResult(storyText);
+    }
+    @Override
+    public String getCostDescription() {
+        return "Auksas -100";
+    }
+    @Override
+    public String getRequirementDescription() {
+        return "Gyventojai ≥ 24";
+    }
+    @Override
+    public String getDescription() {
+        return "Pastatote gynybines sienas aplink piliakalni.";
     }
 }
