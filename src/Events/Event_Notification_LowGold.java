@@ -16,7 +16,7 @@ public class Event_Notification_LowGold implements GameEvent {
     }
     @Override
     public EventResult execute(Piliakalnis p){
-        return new EventResult("Demesio baiginejasi shmekeliai");
+        return new EventResult("DEMESIO! baiginejasi auksas!");
     }
 
     @Override

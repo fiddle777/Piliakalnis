@@ -8,7 +8,7 @@ public class Action_Build_BuildWall implements GameAction {
 
     @Override
     public String getName() {
-        return "Statyti gynybines sienas";
+        return "Stiprinti gynybines sienas";
     }
 
     @Override
@@ -30,7 +30,7 @@ public class Action_Build_BuildWall implements GameAction {
     public ActionResult execute(Piliakalnis p) {
         p.gold -= 100;
         p.defense += 20;
-        String storyText = "Pastatytos gynybines sienos aplink piliakalni. Padidinta piliakalnio gynyba.";
+        String storyText = "Pastiprintos gynybines sienos aplink piliakalni. Padidinta piliakalnio gynyba.";
         return new ActionResult(storyText);
     }
     @Override
@@ -43,6 +43,6 @@ public class Action_Build_BuildWall implements GameAction {
     }
     @Override
     public String getDescription() {
-        return "Pastatote gynybines sienas aplink piliakalni.";
+        return "Stiprinamos gynybines sienas aplink piliakalni.";
     }
 }

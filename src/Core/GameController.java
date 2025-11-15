@@ -183,7 +183,7 @@ public class GameController {
         System.out.printf("Gynyba:     %4d - %4d%n", oldDefense, piliakalnis.defense);
         System.out.printf("Tikejimas:  %4d - %4d%n", oldFaith, piliakalnis.faith);
         System.out.printf("Valia:      %4d - %4d%n", oldMorale, piliakalnis.morale);
-        System.out.printf("Zmonės:     %4d - %4d%n", oldPopulation, piliakalnis.population);
+        System.out.printf("Zmones:     %4d - %4d%n", oldPopulation, piliakalnis.population);
         System.out.println("--------------------------------------------------");
     }
 
