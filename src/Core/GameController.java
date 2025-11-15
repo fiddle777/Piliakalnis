@@ -1,6 +1,7 @@
 package Core;
 
-import Actions.Action_Build_BuildWall;
+import Actions.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -9,6 +10,11 @@ public class GameController {
     private final Piliakalnis piliakalnis;
     private final Scanner scanner = new Scanner(System.in);
     private final List<GameAction> allActions = List.of(
+            new Action_Action_HarvestCrops(),
+            new Action_Action_HoldFeast(),
+            new Action_Action_InviteSettlers(),
+            new Action_Action_LevyTaxes(),
+            new Action_Action_PerformRitual(),
             new Action_Build_BuildWall()
     );
     private final EventManager eventManager = new EventManager();
@@ -43,7 +49,7 @@ public class GameController {
         System.out.printf("Maistas:        %4d%n", piliakalnis.food);
         System.out.printf("Gynyba:         %4d%n", piliakalnis.defense);
         System.out.printf("Tikejimas:      %4d%n", piliakalnis.faith);
-        System.out.printf("Valdovo valia:  %4d%n", piliakalnis.morale);
+        System.out.printf("Morale:  %4d%n", piliakalnis.morale);
 
         System.out.println("==================================================");
     }
@@ -182,7 +188,7 @@ public class GameController {
         System.out.printf("Maistas:    %4d - %4d%n", oldFood, piliakalnis.food);
         System.out.printf("Gynyba:     %4d - %4d%n", oldDefense, piliakalnis.defense);
         System.out.printf("Tikejimas:  %4d - %4d%n", oldFaith, piliakalnis.faith);
-        System.out.printf("Valia:      %4d - %4d%n", oldMorale, piliakalnis.morale);
+        System.out.printf("Morale:      %4d - %4d%n", oldMorale, piliakalnis.morale);
         System.out.printf("Zmones:     %4d - %4d%n", oldPopulation, piliakalnis.population);
         System.out.println("--------------------------------------------------");
     }

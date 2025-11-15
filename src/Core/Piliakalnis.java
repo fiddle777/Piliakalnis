@@ -20,8 +20,8 @@ public class Piliakalnis {
         Piliakalnis p = new Piliakalnis();
         p.year = 1200;
         p.yearsOfRule = 0;
-        p.gold = 500;
-        p.morale = 0;
+        p.gold = 400;
+        p.morale = 40;
         p.food = 100;
         p.population = 52;
         p.defense = 0;
