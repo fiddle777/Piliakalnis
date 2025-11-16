@@ -15,6 +15,10 @@ public class Piliakalnis {
     public int population;
     public int defense;
     public int faith;
+    public int fortLevel;
+    public int farmLevel;
+    public int altarLevel;
+    public int marketLevel;
 
     public static Piliakalnis createInitPiliakalnis() {
         Piliakalnis p = new Piliakalnis();
@@ -24,8 +28,12 @@ public class Piliakalnis {
         p.morale = 40;
         p.food = 100;
         p.population = 52;
-        p.defense = 0;
+        p.defense = 20;
         p.faith = 20;
+        p.fortLevel = 0;
+        p.farmLevel = 0;
+        p.altarLevel = 0;
+        p.marketLevel = 0;
         return p;
     }
 }

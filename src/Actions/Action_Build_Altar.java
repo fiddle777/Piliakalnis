@@ -4,11 +4,11 @@ import Core.ActionResult;
 import Core.GameAction;
 import Core.Piliakalnis;
 
-public class Action_Build_BuildWall implements GameAction {
+public class Action_Build_Altar implements GameAction {
 
     @Override
     public String getName() {
-        return "Stiprinti gynybines sienas";
+        return "Statyti aukura";
     }
 
     @Override
@@ -18,31 +18,38 @@ public class Action_Build_BuildWall implements GameAction {
 
     @Override
     public String getCategory2() {
-        return "Gynyba";
+        return "Tikejimas";
     }
 
     @Override
     public boolean isAvailable(Piliakalnis p) {
-        return p.gold >= 100 && p.population >= 24;
+        return p.altarLevel < 100 && p.gold >= 100;
     }
 
     @Override
     public ActionResult execute(Piliakalnis p) {
         p.gold -= 100;
-        p.defense += 20;
-        String storyText = "Pastiprintos gynybines sienos aplink piliakalni. Padidinta piliakalnio gynyba.";
-        return new ActionResult(storyText);
+        p.altarLevel += 1;
+        p.faith += 15;
+        p.morale += 5;
+
+        String story = "Ant piliakalnio statote nauja aukura.\n"
+                + "Tikejimas ir morale sustipreja, aukuro lygis: " + p.altarLevel + ".";
+        return new ActionResult(story);
     }
+
     @Override
     public String getCostDescription() {
         return "Auksas -100";
     }
+
     @Override
     public String getRequirementDescription() {
-        return "Gyventojai ≥ 24";
+        return "Auksas >= 100";
     }
+
     @Override
     public String getDescription() {
-        return "Stiprinamos gynybines sienas aplink piliakalni.";
+        return "Aukuras stiprina tikejima ir morales jausma.";
     }
 }

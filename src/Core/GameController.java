@@ -15,7 +15,7 @@ public class GameController {
             new Action_Action_InviteSettlers(),
             new Action_Action_LevyTaxes(),
             new Action_Action_PerformRitual(),
-            new Action_Build_BuildWall()
+            new Action_Build_Fort()
     );
     private final EventManager eventManager = new EventManager();
     private final List<String> storyLog = new ArrayList<>();
@@ -44,14 +44,18 @@ public class GameController {
         System.out.println("Metai: " + piliakalnis.year + " AD");
         System.out.println("Metai Valdzioje: " + piliakalnis.yearsOfRule);
         System.out.println("--------------------------------------------------");
-
-        System.out.printf("Gyventojai:     %4d%n", piliakalnis.population);
-        System.out.printf("Auksas:         %4d%n", piliakalnis.gold);
-        System.out.printf("Maistas:        %4d%n", piliakalnis.food);
-        System.out.printf("Gynyba:         %4d%n", piliakalnis.defense);
-        System.out.printf("Tikejimas:      %4d%n", piliakalnis.faith);
-        System.out.printf("Morale:  %4d%n", piliakalnis.morale);
-
+        System.out.printf("Gyventojai:     %8d%n", piliakalnis.population);
+        System.out.printf("Auksas:         %8d%n", piliakalnis.gold);
+        System.out.printf("Maistas:        %8d%n", piliakalnis.food);
+        System.out.printf("Gynyba:         %8d%n", piliakalnis.defense);
+        System.out.printf("Tikejimas:      %8d%n", piliakalnis.faith);
+        System.out.printf("Morale:         %8d%n", piliakalnis.morale);
+        System.out.println("--------------------------------------------------");
+        System.out.println("STATINIAI:");
+        System.out.printf("Fortifikacijos: %8d lygis%n", piliakalnis.fortLevel);
+        System.out.printf("Ukis ir Gardas: %8d lygis%n", piliakalnis.farmLevel);
+        System.out.printf("Aukuras:        %8d lygis%n", piliakalnis.altarLevel);
+        System.out.printf("Turgus:         %8d lygis%n", piliakalnis.marketLevel);
         System.out.println("==================================================");
     }
     public static void cls() {
