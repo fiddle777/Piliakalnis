@@ -42,7 +42,7 @@ public class Event_Flavour_Drunkards implements GameEvent {
 
         String text = "Po ilgos puotos keli uzsivele pagonys nusprende padegti lauko tualetus,\n" +
                 "protestuodami pries per dideli tvarkos kieki. Kvapas ir kaimas abudu kencia.\n" +
-                "Tvarkos atstatymas kainuoja " + goldLoss + " aukso,\no smarve" +
+                "Tvarkos atstatymas kainuoja " + goldLoss + " aukso, o smarve " +
                 "sumenkina morale (-" + moraleLoss + ").";
         return new EventResult(text);
     }
