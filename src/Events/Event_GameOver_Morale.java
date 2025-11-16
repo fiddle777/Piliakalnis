@@ -3,20 +3,24 @@ package Events;
 import Core.EventResult;
 import Core.GameEvent;
 
-public class Event_GameOver_Starvation implements GameEvent {
+public class Event_GameOver_Morale implements GameEvent {
+
     @Override
     public String getEventText() {
-        return "Zlugimas del bado";
+        return "Zlugimas del morales";
     }
+
     @Override
     public boolean canTrigger(Core.Piliakalnis p) {
-        return p.food <= 0;
+        return p.morale <= -20;
     }
+
     @Override
     public EventResult execute(Core.Piliakalnis p) {
-        String text = "Maisto atsargos visiskai isseko. Likusieji issiskirste arba mire is bado.\nJusu valdymas baigesi.";
+        String text = "Pavaldiniai nebetiki jumis kaip valdovu. Jie sukyla ir jus nuvercia.\nJusu valdymas baigesi.";
         return new EventResult(text, true);
     }
+
     @Override
     public boolean isRandom() {
         return false;

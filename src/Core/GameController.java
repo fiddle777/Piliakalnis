@@ -160,6 +160,7 @@ public class GameController {
                     if(text != null && !text.isEmpty()) {
                         gameOverMessage = text;
                     }
+                    continue;
                 }
                 if(text != null && !text.isEmpty()) {
                     if(!stringBuilder.isEmpty()) {

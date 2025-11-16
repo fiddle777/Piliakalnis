@@ -1,0 +1,10 @@
+TD0:
+add normal console launcher intellij is ugly
+DONE clean up outputs
+remove tempdels
+DONE add proper events and actions
+add intro
+DONE add outro
+TD1:
+eog full story log
+add building mechanics

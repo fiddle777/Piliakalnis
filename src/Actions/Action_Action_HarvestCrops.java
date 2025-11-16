@@ -27,7 +27,7 @@ public class Action_Action_HarvestCrops implements GameAction {
 
     @Override
     public ActionResult execute(Piliakalnis p) {
-        p.food += 40;
+        p.food += p.population;
 
         String story = "Valdovo isakymu surenkamas derlius. Sandeliai prisipildo maisto.";
         return new ActionResult(story);

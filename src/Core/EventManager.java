@@ -12,7 +12,9 @@ public class EventManager {
 
     public EventManager(){
         allEvents.add(new Event_EOT_BaseChanges());
-        allEvents.add(new Event_GameOver_Starvation());
+        allEvents.add(new Event_GameOver_Food());
+        allEvents.add(new Event_GameOver_Morale());
+        allEvents.add(new Event_GameOver_Population());
         allEvents.add(new Event_Notification_LowGold());
         allEvents.add(new Event_Notification_LowFood());
         allEvents.add(new Event_Notification_LowMorale());
