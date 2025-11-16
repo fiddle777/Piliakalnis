@@ -116,7 +116,6 @@ public class GameController {
             System.out.println("NEGALIME ATLIKTI SIO VEIKSMO, VALDOVE!");
             return true;
         }
-
         processTurn(action);
         return true;
     }
@@ -131,8 +130,6 @@ public class GameController {
         scanner.nextLine();
     }
     private void processTurn(GameAction action) {
-
-        // snapshot old stats
         int oldGold = piliakalnis.gold;
         int oldMorale = piliakalnis.morale;
         int oldFood = piliakalnis.food;
@@ -146,12 +143,43 @@ public class GameController {
         // roll events
         List<EventResult> eventResults = eventManager.rollEvents(piliakalnis);
 
-        // build final combined turn story
-        String story = buildTurnStory(actionResult, eventResults);
+        boolean gameOver = false;
+        String gameOverMessage = null;
+
+        // build final combined turn story + detect gameover
+        StringBuilder stringBuilder = new StringBuilder();
+        if(actionResult != null && actionResult.storyText != null && !actionResult.storyText.isEmpty()) {
+            stringBuilder.append(actionResult.storyText);
+            storyLog.add(actionResult.storyText);
+        }
+        if(eventResults != null) {
+            for(EventResult eventResult : eventResults) {
+                String text = eventResult.getStoryText();
+                if(eventResult.isGameOver()) {
+                    gameOver = true;
+                    if(text != null && !text.isEmpty()) {
+                        gameOverMessage = text;
+                    }
+                }
+                if(text != null && !text.isEmpty()) {
+                    if(!stringBuilder.isEmpty()) {
+                        stringBuilder.append("\n");
+                    }
+                    stringBuilder.append(text);
+                    storyLog.add(text);
+                }
+            }
+        }
+        String story = stringBuilder.toString();
 
         // print turn summary
         cls();
         showTurnSummary(story, oldGold, oldMorale, oldFood, oldPopulation, oldDefense, oldFaith);
+
+        if(gameOver) {
+            showGameOverScreen(gameOverMessage);
+            System.exit(0);
+        }
     }
     private String buildTurnStory(ActionResult actionResult, List<EventResult> eventResults) {
         StringBuilder sb = new StringBuilder();
@@ -200,5 +228,23 @@ public class GameController {
         System.out.println("--------------------------------------------------");
         System.out.println(story);
         System.out.println("--------------------------------------------------");
+    }
+
+    private void showGameOverScreen(String gameOverMessage) {
+        cls();
+        System.out.println("==================================================");
+        System.out.println("            ZAIDIMO PABAIGA");
+        System.out.println("==================================================");
+        System.out.println("Metai: " + piliakalnis.year + " AD");
+        System.out.println("Metai valdzioje: " + piliakalnis.yearsOfRule);
+        System.out.println();
+        if (gameOverMessage != null && !gameOverMessage.isEmpty()) {
+            System.out.println(gameOverMessage);
+        } else {
+            System.out.println("Jusu valdzia baige savo egzistavima.");
+        }
+        System.out.println("==================================================");
+        System.out.println("\nSpauskite ENTER, kad iseitumete...");
+        scanner.nextLine();
     }
 }
