@@ -23,6 +23,7 @@ public class GameController {
         this.piliakalnis = piliakalnis;
     }
     public void startGame() {
+        showIntro();
         boolean running = true;
         while (running) {
             cls();
@@ -246,6 +247,23 @@ public class GameController {
         }
         System.out.println("==================================================");
         System.out.println("\nSpauskite ENTER, kad iseitumete...");
+        scanner.nextLine();
+    }
+
+    private void showIntro() {
+        System.out.println("==================================================");
+        System.out.println("                 PILIAKALNIS");
+        System.out.println("==================================================");
+        System.out.println("Esate nedidelio baltu piliakalnio vadas.");
+        System.out.println("Turite valdyti auksa, maista, gyventojus, gynyba, tikejima ir morale.");
+        System.out.println();
+        System.out.println("Jei auksas, maistas ar morale nukrenta iki 0 – jusu valdzia zlunga.");
+        System.out.println("Jei islaikote piliakalni daug metu – jusu valdymas laikomas sekmingu.");
+        System.out.println();
+        System.out.println("Kiekviename ejime pasirenkate veiksma: statyti, rinkti maista,");
+        System.out.println("kelti morale, stiprinti gynyba, kvieti naujakurius ir pan.");
+        System.out.println("==================================================");
+        System.out.println("Spauskite ENTER, jei norite pradeti...");
         scanner.nextLine();
     }
 }
