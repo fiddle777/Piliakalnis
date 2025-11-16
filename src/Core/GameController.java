@@ -42,23 +42,26 @@ public class GameController {
     }
     private void showMainMenu() {
         System.out.println("==================================================");
-        System.out.println("                 PILIAKALNIS");
+        System.out.println("                     PILIAKALNIS");
         System.out.println("==================================================");
-        System.out.println("Metai: " + piliakalnis.year + " AD");
-        System.out.println("Metai Valdzioje: " + piliakalnis.yearsOfRule);
+        System.out.printf("%dAD, metu valdzioje: %-4d%n",
+                piliakalnis.year, piliakalnis.yearsOfRule);
         System.out.println("--------------------------------------------------");
-        System.out.printf("Gyventojai:     %8d%n", piliakalnis.population);
-        System.out.printf("Auksas:         %8d%n", piliakalnis.gold);
-        System.out.printf("Maistas:        %8d%n", piliakalnis.food);
-        System.out.printf("Gynyba:         %8d%n", piliakalnis.defense);
-        System.out.printf("Tikejimas:      %8d%n", piliakalnis.faith);
-        System.out.printf("Morale:         %8d%n", piliakalnis.morale);
+        System.out.printf("%-12s %4d   %-12s %4d   %-12s %4d%n",
+                "Gyventoju:", piliakalnis.population,
+                "Auksas:",    piliakalnis.gold,
+                "Maistas:",   piliakalnis.food
+        );
+        System.out.printf("%-12s %4d   %-12s %4d   %-12s %4d%n",
+                "Gynyba:",    piliakalnis.defense,
+                "Tikejimas:", piliakalnis.faith,
+                "Morale:",    piliakalnis.morale
+        );
         System.out.println("--------------------------------------------------");
         System.out.println("STATINIAI:");
-        System.out.printf("Fortifikacijos: %8d lygis%n", piliakalnis.fortLevel);
-        System.out.printf("Ukis ir Gardas: %8d lygis%n", piliakalnis.farmLevel);
-        System.out.printf("Aukuras:        %8d lygis%n", piliakalnis.altarLevel);
-        System.out.printf("Turgus:         %8d lygis%n", piliakalnis.marketLevel);
+        System.out.printf("Fortifikacijos: %-2d   Ukis/gardas: %-2d   Aukuras: %-2d   Turgus: %-2d%n",
+                piliakalnis.fortLevel, piliakalnis.farmLevel,
+                piliakalnis.altarLevel, piliakalnis.marketLevel);
         System.out.println("==================================================");
     }
     public static void cls() {
@@ -77,24 +80,30 @@ public class GameController {
     private void showActionsMenu() {
         System.out.println("GALIMI VEIKSMAI:");
         System.out.println("--------------------------------------------------");
-        for(int i = 0; i < allActions.size(); i++) {
+        for (int i = 0; i < allActions.size(); i++) {
             GameAction action = allActions.get(i);
             boolean available = action.isAvailable(piliakalnis);
             String availabilityMark = available ? "" : " (NEGALIMA)";
-            System.out.printf("%d) %-30s [%s / %s]%s%n",
+            System.out.printf(
+                    "%2d) %-28s [%s / %s]%s%n",
                     i + 1,
                     action.getName(),
                     action.getCategory1(),
                     action.getCategory2(),
                     availabilityMark
             );
-            if(action.getCostDescription() != null && !action.getCostDescription().isEmpty()) {
-                System.out.printf("    Kaina: %s%n", action.getCostDescription());
+            String cost = action.getCostDescription();
+            String req  = action.getRequirementDescription();
+            boolean hasCost = cost != null && !cost.isEmpty();
+            boolean hasReq  = req != null && !req.isEmpty();
+            if (hasCost && hasReq) {
+                System.out.printf("    %-30s | R: %s%n", "K: " + cost, req);
+            } else if (hasCost) {
+                System.out.printf("    %-30s%n", "K: " + cost);
+            } else if (hasReq) {
+                System.out.printf("    %-30s%n", "R: " + req);
             }
-            if(action.getRequirementDescription() != null && !action.getRequirementDescription().isEmpty()){
-                System.out.printf("    Reikalavimai: %s%n", action.getRequirementDescription());
-            }
-            System.out.println("--------------------------------------------------");
+            System.out.println();
         }
         System.out.println("0) Baigti zaidima");
     }
@@ -221,19 +230,18 @@ public class GameController {
 
         System.out.println("POKYCIAI:");
         System.out.println("--------------------------------------------------");
-        System.out.printf("Auksas:     %4d - %4d%n", oldGold, piliakalnis.gold);
-        System.out.printf("Maistas:    %4d - %4d%n", oldFood, piliakalnis.food);
-        System.out.printf("Gynyba:     %4d - %4d%n", oldDefense, piliakalnis.defense);
-        System.out.printf("Tikejimas:  %4d - %4d%n", oldFaith, piliakalnis.faith);
-        System.out.printf("Morale:      %4d - %4d%n", oldMorale, piliakalnis.morale);
-        System.out.printf("Zmones:     %4d - %4d%n", oldPopulation, piliakalnis.population);
+        System.out.printf("Auksas:     %4d - %4d(%d)%n", oldGold, piliakalnis.gold, piliakalnis.gold - oldGold);
+        System.out.printf("Maistas:    %4d - %4d(%d)%n", oldFood, piliakalnis.food, piliakalnis.food - oldFood);
+        System.out.printf("Gynyba:     %4d - %4d(%d)%n", oldDefense, piliakalnis.defense, piliakalnis.defense - oldDefense);
+        System.out.printf("Tikejimas:  %4d - %4d(%d)%n", oldFaith, piliakalnis.faith, piliakalnis.faith - oldFaith);
+        System.out.printf("Morale:     %4d - %4d(%d)%n", oldMorale, piliakalnis.morale, piliakalnis.morale - oldMorale);
+        System.out.printf("Zmones:     %4d - %4d(%d)%n", oldPopulation, piliakalnis.population, piliakalnis.population - oldPopulation);
         System.out.println("--------------------------------------------------");
     }
 
     private void printStoryBlock(String story) {
         if (story == null || story.isEmpty()) return;
-
-        System.out.println("\nIVYKIAI:");
+        System.out.println("NAUJIENOS:");
         System.out.println("--------------------------------------------------");
         System.out.println(story);
         System.out.println("--------------------------------------------------");
