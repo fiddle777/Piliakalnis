@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Piliakalnis:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Piliakalnis_jar</output-path>
+    <root id="archive" name="Piliakalnis.jar">
+      <element id="module-output" name="Piliakalnis" />
+    </root>
+  </artifact>
+</component>
