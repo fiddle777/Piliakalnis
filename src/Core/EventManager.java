@@ -15,12 +15,12 @@ public class EventManager {
         allEvents.add(new Event_GameOver_Food());
         allEvents.add(new Event_GameOver_Morale());
         allEvents.add(new Event_GameOver_Population());
-        allEvents.add(new Event_Notification_LowGold());
-        allEvents.add(new Event_Notification_LowFood());
-        allEvents.add(new Event_Notification_LowMorale());
-        allEvents.add(new Event_Notification_LowPopulation());
-        allEvents.add(new Event_Notification_LowDefense());
-        allEvents.add(new Event_Notification_LowFaith());
+        allEvents.add(new Event_Notification_Gold());
+        allEvents.add(new Event_Notification_Food());
+        allEvents.add(new Event_Notification_Morale());
+        allEvents.add(new Event_Notification_Population());
+        allEvents.add(new Event_Notification_Defense());
+        allEvents.add(new Event_Notification_Faith());
     }
 
     public List<EventResult> rollEvents(Piliakalnis p){
