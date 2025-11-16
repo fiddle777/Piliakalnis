@@ -8,7 +8,7 @@ public class Action_Build_Market implements GameAction {
 
     @Override
     public String getName() {
-        return "Plesti turgų";
+        return "Plesti turgu";
     }
 
     @Override

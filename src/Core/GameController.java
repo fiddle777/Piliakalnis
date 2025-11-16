@@ -15,7 +15,10 @@ public class GameController {
             new Action_Action_InviteSettlers(),
             new Action_Action_LevyTaxes(),
             new Action_Action_PerformRitual(),
-            new Action_Build_Fort()
+            new Action_Build_Fort(),
+            new Action_Build_Farmstead(),
+            new Action_Build_Altar(),
+            new Action_Build_Market()
     );
     private final EventManager eventManager = new EventManager();
     private final List<String> storyLog = new ArrayList<>();
