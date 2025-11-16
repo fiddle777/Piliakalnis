@@ -35,13 +35,25 @@ public class EventManager {
                 }
             }
         }
+
         if(!randomCandidates.isEmpty()){
-            GameEvent chosen = randomCandidates.get(rnd.nextInt(randomCandidates.size()));
-            results.add(chosen.execute(p));
+            List<GameEvent> eligibleRandomEvents = new ArrayList<>();
+            for(GameEvent ge : randomCandidates){
+                int chance = ge.getChancePercent();
+                if(chance >= 100){
+                    eligibleRandomEvents.add(ge);
+                } else if(chance > 0){
+                    int roll = rnd.nextInt(100) + 1;
+                    if(roll <= chance){
+                        eligibleRandomEvents.add(ge);
+                    }
+                }
+            }
+            if(!eligibleRandomEvents.isEmpty()){
+                GameEvent selectedEvent = eligibleRandomEvents.get(rnd.nextInt(eligibleRandomEvents.size()));
+                results.add(selectedEvent.execute(p));
+            }
         }
-        if(results.isEmpty()){
-            return null;
-        }
-        return results;
+        return results.isEmpty() ? List.of() : results;
     }
 }
