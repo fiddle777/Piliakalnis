@@ -4,10 +4,10 @@ import Core.ActionResult;
 import Core.GameAction;
 import Core.Piliakalnis;
 
-public class Action_Action_HarvestCrops implements GameAction {
+public class Action_Action_Hunt implements GameAction {
     @Override
     public String getName() {
-        return "Rinkti derliu";
+        return "Organizuoti medziokle";
     }
 
     @Override
@@ -22,14 +22,13 @@ public class Action_Action_HarvestCrops implements GameAction {
 
     @Override
     public boolean isAvailable(Piliakalnis p) {
-        return p.population >= 15;
+        return p.population >= 10;
     }
 
     @Override
     public ActionResult execute(Piliakalnis p) {
         p.food += p.population;
-
-        String story = "Valdovo isakymu surenkamas derlius. Sandeliai prisipildo maisto.";
+        String story = "Valdovo isakymu gyventojai organizuoja medziokle ir papildo maisto atsargas.";
         return new ActionResult(story);
     }
 
@@ -40,11 +39,11 @@ public class Action_Action_HarvestCrops implements GameAction {
 
     @Override
     public String getRequirementDescription() {
-        return "Gyventojai >= 15";
+        return "Gyventojai >= 10";
     }
 
     @Override
     public String getDescription() {
-        return "Isakote surinkti derliu ir papildyti maisto atsargas.";
+        return "Organizuojate medziokle, kad padidintumete maisto atsargas.";
     }
 }

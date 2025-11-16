@@ -12,7 +12,7 @@ public class Event_GameOver_Morale implements GameEvent {
 
     @Override
     public boolean canTrigger(Core.Piliakalnis p) {
-        return p.morale <= -20;
+        return p.morale <= -0;
     }
 
     @Override

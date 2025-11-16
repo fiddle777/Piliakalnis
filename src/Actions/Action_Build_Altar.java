@@ -23,14 +23,13 @@ public class Action_Build_Altar implements GameAction {
 
     @Override
     public boolean isAvailable(Piliakalnis p) {
-        return p.altarLevel < 100 && p.gold >= 100;
+        return p.altarLevel < 3 && p.gold >= 100;
     }
 
     @Override
     public ActionResult execute(Piliakalnis p) {
         p.gold -= 100;
         p.altarLevel += 1;
-        p.faith += 15;
         p.morale += 5;
 
         String story = "Ant piliakalnio statote nauja aukura.\n"
@@ -45,11 +44,11 @@ public class Action_Build_Altar implements GameAction {
 
     @Override
     public String getRequirementDescription() {
-        return "Auksas >= 100";
+        return "Auksas >= 100, Aukuro lygis < 3";
     }
 
     @Override
     public String getDescription() {
-        return "Aukuras stiprina tikejima ir morales jausma.";
+        return "Aukuras stiprina tikejima ir pasitikejima jumis, Valdove.";
     }
 }

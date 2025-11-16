@@ -24,12 +24,12 @@ public class Piliakalnis {
         Piliakalnis p = new Piliakalnis();
         p.year = 1200;
         p.yearsOfRule = 0;
-        p.gold = 400;
+        p.gold = 300;
         p.morale = 40;
-        p.food = 100;
-        p.population = 52;
+        p.food = 140;
+        p.population = 50;
         p.defense = 20;
-        p.faith = 20;
+        p.faith = 8;
         p.fortLevel = 0;
         p.farmLevel = 0;
         p.altarLevel = 0;

@@ -10,7 +10,7 @@ public class GameController {
     private final Piliakalnis piliakalnis;
     private final Scanner scanner = new Scanner(System.in);
     private final List<GameAction> allActions = List.of(
-            new Action_Action_HarvestCrops(),
+            new Action_Action_Hunt(),
             new Action_Action_HoldFeast(),
             new Action_Action_InviteSettlers(),
             new Action_Action_LevyTaxes(),

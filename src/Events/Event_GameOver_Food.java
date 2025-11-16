@@ -14,7 +14,7 @@ public class Event_GameOver_Food implements GameEvent {
     }
     @Override
     public EventResult execute(Core.Piliakalnis p) {
-        String text = "Maisto atsargos visiskai isseko. Likusieji issiskirste arba mire is bado.\nJusu valdymas baigesi.";
+        String text = "Maisto atsargos visiskai isseko. Likusieji issiskirste arba mire nuo bado.\nJusu valdymas baigesi.";
         return new EventResult(text, true);
     }
     @Override

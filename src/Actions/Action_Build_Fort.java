@@ -23,7 +23,7 @@ public class Action_Build_Fort implements GameAction {
 
     @Override
     public boolean isAvailable(Piliakalnis p) {
-        return p.gold >= 150 && p.population >= 10 && p.fortLevel < 100;
+        return p.gold >= 150 && p.population >= 30 && p.fortLevel < 3;
     }
 
     @Override
@@ -44,11 +44,11 @@ public class Action_Build_Fort implements GameAction {
 
     @Override
     public String getRequirementDescription() {
-        return "Auksas >= 150, Gyventojai >= 10";
+        return "Auksas >= 150, Gyventojai >= 30, Fortifikaciju lygis < 3";
     }
 
     @Override
     public String getDescription() {
-        return "Stiprina fortifikacijas ir didina gynyba.";
+        return "Stiprina gynybines sienas ir pakelia bendro piliakalnio gynyba.";
     }
 }

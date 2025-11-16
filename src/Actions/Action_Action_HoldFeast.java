@@ -21,12 +21,12 @@ public class Action_Action_HoldFeast implements GameAction {
 
     @Override
     public boolean isAvailable(Piliakalnis p) {
-        return p.food >= 30;
+        return p.food >= 40;
     }
 
     @Override
     public ActionResult execute(Piliakalnis p) {
-        p.food -= 30;
+        p.food -= 40;
         p.morale += 20;
 
         String story = "Surengiate puota savo valstieciams. Maisto atsargos mazeja, bet nuotaika pagereja.";
@@ -35,12 +35,12 @@ public class Action_Action_HoldFeast implements GameAction {
 
     @Override
     public String getCostDescription() {
-        return "Maistas -30";
+        return "Maistas -40";
     }
 
     @Override
     public String getRequirementDescription() {
-        return "Maistas >= 30";
+        return "Maistas >= 40";
     }
 
     @Override

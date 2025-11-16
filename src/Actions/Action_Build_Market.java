@@ -23,15 +23,13 @@ public class Action_Build_Market implements GameAction {
 
     @Override
     public boolean isAvailable(Piliakalnis p) {
-        return p.marketLevel < 100 && p.gold >= 130;
+        return p.marketLevel < 3 && p.gold >= 130;
     }
 
     @Override
     public ActionResult execute(Piliakalnis p) {
         p.gold -= 130;
         p.marketLevel += 1;
-        p.gold += 40;
-        p.morale += 2;
 
         String story = "Jus pleciate turgu ir pritraukiate daugiau pirkiu.\n"
                 + "Ilgainiui auksas ima greiciau kauptis, turgaus lygis: " + p.marketLevel + ".";
@@ -40,7 +38,7 @@ public class Action_Build_Market implements GameAction {
 
     @Override
     public String getCostDescription() {
-        return "Auksas -130 (iskart), veliau daugiau pajamu.";
+        return "Auksas -130";
     }
 
     @Override
@@ -50,6 +48,6 @@ public class Action_Build_Market implements GameAction {
 
     @Override
     public String getDescription() {
-        return "Pleciamas turgus, padidinamos ekonomines galimybes.";
+        return "Pleciamas turgus, padidinamos ekonomines galimybes ir prekybos srautai.";
     }
 }
