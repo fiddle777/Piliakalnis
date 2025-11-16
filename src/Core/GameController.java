@@ -181,7 +181,7 @@ public class GameController {
                 }
                 if(text != null && !text.isEmpty()) {
                     if(!stringBuilder.isEmpty()) {
-                        stringBuilder.append("\n");
+                        stringBuilder.append("\n\n");
                     }
                     stringBuilder.append(text);
                     storyLog.add(text);
@@ -272,8 +272,8 @@ public class GameController {
         System.out.println("Esate nedidelio baltu piliakalnio vadas.");
         System.out.println("Turite valdyti auksa, maista, gyventojus, gynyba, tikejima ir morale.");
         System.out.println();
-        System.out.println("Jei auksas, maistas ar morale nukrenta iki 0 – jusu valdzia zlunga.");
-        System.out.println("Jei islaikote piliakalni daug metu – jusu valdymas laikomas sekmingu.");
+        System.out.println("Jei auksas, maistas ar morale nukrenta iki 0 - jusu valdzia zlunga.");
+        System.out.println("Jei islaikote piliakalni daug metu - jusu valdymas laikomas sekmingu.");
         System.out.println();
         System.out.println("Kiekviename ejime pasirenkate veiksma: statyti, rinkti maista,");
         System.out.println("kelti morale, stiprinti gynyba, kvieti naujakurius ir pan.");

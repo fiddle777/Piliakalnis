@@ -21,8 +21,8 @@ public class Event_GameOver_MindaugasRandom implements GameEvent {
 
     @Override
     public EventResult execute(Piliakalnis p) {
-        String text = "Atvaziuoja raiteliai ir pranesa: Mindaugas kviecia jus i taryba. " +
-                "Jusu darbai nepastebeti neliko – laikas jungtis prie didziojo vienijimo.";
+        String text = "Atvaziuoja raiteliai ir pranesa: Mindaugas kviecia jus i taryba.\n" +
+                "Jusu darbai nepastebeti neliko – laikas jungtis prie didziojo vienijimo.\n";
         return new EventResult(text, true);
     }
     @Override

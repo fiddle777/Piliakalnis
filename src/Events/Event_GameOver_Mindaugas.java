@@ -17,8 +17,8 @@ public class Event_GameOver_Mindaugas implements GameEvent {
 
     @Override
     public EventResult execute(Piliakalnis p) {
-        String text = "1251 metais Mindaugas pakrikstomas ir pripazistamas karaliumi. " +
-                "Jusu piliakalnis issilaike sunkius metus ir prisidejo prie zemiu stiprejimo. " +
+        String text = "1251 metais Mindaugas pakrikstomas ir pripazistamas karaliumi.\n" +
+                "Jusu piliakalnis issilaike sunkius metus ir prisidejo prie zemiu stiprejimo.\n" +
                 "Jusu vardas bus minimas salia kitu valdovu.";
         return new EventResult(text, true);
     }

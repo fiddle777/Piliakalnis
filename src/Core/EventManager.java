@@ -23,6 +23,10 @@ public class EventManager {
         allEvents.add(new Event_Notification_Faith());
         allEvents.add(new Event_GameOver_MindaugasRandom());
         allEvents.add(new Event_GameOver_Mindaugas());
+        allEvents.add(new Event_Flavour_BebruDarba());
+        allEvents.add(new Event_Flavour_Drunkards());
+        allEvents.add(new Event_Flavour_Fire());
+        allEvents.add(new Event_Flavour_Missionaries());
     }
 
     public List<EventResult> rollEvents(Piliakalnis p){
