@@ -21,6 +21,8 @@ public class EventManager {
         allEvents.add(new Event_Notification_Population());
         allEvents.add(new Event_Notification_Defense());
         allEvents.add(new Event_Notification_Faith());
+        allEvents.add(new Event_GameOver_MindaugasRandom());
+        allEvents.add(new Event_GameOver_Mindaugas());
     }
 
     public List<EventResult> rollEvents(Piliakalnis p){
