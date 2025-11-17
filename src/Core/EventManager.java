@@ -27,6 +27,10 @@ public class EventManager {
         allEvents.add(new Event_Flavour_Drunkards());
         allEvents.add(new Event_Flavour_Fire());
         allEvents.add(new Event_Flavour_Missionaries());
+        allEvents.add(new Event_Raid_Teutons());
+        allEvents.add(new Event_Raid_Livonians());
+        allEvents.add(new Event_Raid_Looters());
+        allEvents.add(new Event_Raid_Curonians());
     }
 
     public List<EventResult> rollEvents(Piliakalnis p){
