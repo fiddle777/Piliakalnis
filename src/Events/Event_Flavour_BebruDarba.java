@@ -62,7 +62,7 @@ public class Event_Flavour_BebruDarba implements GameEvent {
             p.morale -= 1;
             if (p.morale < 0) p.morale = 0;
             text = "Bebru burys pastebejo sukrauta mediena statyboms ir ja issinese.\n" +
-                    "Dalies " + affectedName + " darbai visiskai suzlugdomi – viskas turi prasideti is naujo.\n" +
+                    "Dalies " + affectedName + " darbai visiskai suzlugdomi - viskas turi prasideti is naujo.\n" +
                     "Statybos sustoja, amatininkai burnoja.";
         } else {
             p.morale -= 5;

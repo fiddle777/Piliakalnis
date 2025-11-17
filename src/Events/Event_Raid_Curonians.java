@@ -31,9 +31,9 @@ public class Event_Raid_Curonians implements GameEvent {
         if (p.population < 0) p.population = 0;
 
         String text = "Apgultis! Kursiu luotai upe atplaukia!\n"
-                + "isnesamas grobis – prarandate " + goldLoss + " aukso.\n"
+                + "isnesamas grobis - prarandate " + goldLoss + " aukso.\n"
                 + "prie lauzo sklinda istorijos apie narsias kautynes.\n"
-                + "morale krenta - " + moraleLoss + ", zuvo " + popLoss + ".";
+                + "morale krenta, -" + moraleLoss + ", zuvo " + popLoss + ".";
 
         return new EventResult(text);
     }

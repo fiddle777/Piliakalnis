@@ -21,7 +21,7 @@ public class Event_Notification_Morale implements GameEvent {
         if (p.morale < 25) {
             p.morale -= 2;
             if (p.morale < 0) {p.morale = 0;}
-            String text = "DEMESIO! Turgavieteje ir prie lauzu girdisi nepasitenkinimo murmėjimas. Jei niekas nesikeis, gali kilti rimtesni neramumai.";
+            String text = "DEMESIO! Turgavieteje ir prie lauzu girdisi nepasitenkinimo murmejimas. Jei niekas nesikeis, gali kilti rimtesni neramumai.";
             return new EventResult(text);
         } else if (p.morale >= 75) {
             p.morale += 1;

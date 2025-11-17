@@ -41,12 +41,12 @@ public class GameController {
         }
     }
     private void showMainMenu() {
-        System.out.println("==================================================");
-        System.out.println("                     PILIAKALNIS");
-        System.out.println("==================================================");
+        System.out.println("==============================================================");
+        System.out.println("                       PILIAKALNIS");
+        System.out.println("==============================================================");
         System.out.printf("%dAD, metu valdzioje: %-4d%n",
                 piliakalnis.year, piliakalnis.yearsOfRule);
-        System.out.println("--------------------------------------------------");
+        System.out.println("--------------------------------------------------------------");
         System.out.printf("%-12s %4d   %-12s %4d   %-12s %4d%n",
                 "Gyventoju:", piliakalnis.population,
                 "Auksas:",    piliakalnis.gold,
@@ -57,12 +57,12 @@ public class GameController {
                 "Tikejimas:", piliakalnis.faith,
                 "Morale:",    piliakalnis.morale
         );
-        System.out.println("--------------------------------------------------");
+        System.out.println("--------------------------------------------------------------");
         System.out.println("STATINIAI:");
         System.out.printf("Fortifikacijos: %-2d   Ukis/gardas: %-2d   Aukuras: %-2d   Turgus: %-2d%n",
                 piliakalnis.fortLevel, piliakalnis.farmLevel,
                 piliakalnis.altarLevel, piliakalnis.marketLevel);
-        System.out.println("==================================================");
+        System.out.println("==============================================================");
     }
     public static void cls() {
         try {
