@@ -1,10 +1,17 @@
 package Events;
 
-import Core.EventResult;
-import Core.GameEvent;
 import Core.Piliakalnis;
 
-public class Event_Notification_Population implements GameEvent {
+public class Event_Notification_Population extends NotificationEvent {
+
+    private static final int LOW_POPULATION_THRESHOLD = 40;
+    private static final int HIGH_POPULATION_THRESHOLD = 120;
+    private static final int LOW_MORALE_DELTA = -2;
+    private static final int HIGH_MORALE_DELTA = 1;
+    private static final String LOW_POPULATION_TEXT = "DEMESIO! Piliakalnyje matyti vis daugiau tusciu trobesiu. " +
+            "Liko per mazai darbingos liaudies, kad atlaikytu spaudima.";
+    private static final String HIGH_POPULATION_TEXT = "Sostapilio lankose nesutelpa visi piemenys, pirkliai ir kariai. " +
+            "Piliakalnis dideja ir sutraukia smalsuolius.";
 
     @Override
     public String getEventText() {
@@ -12,28 +19,16 @@ public class Event_Notification_Population implements GameEvent {
     }
 
     @Override
-    public boolean canTrigger(Piliakalnis p) {
-        return p.population < 20 || p.population > 120;
+    public boolean canTrigger(Piliakalnis piliakalnis) {
+        int population = piliakalnis.getPopulation();
+        return population < LOW_POPULATION_THRESHOLD || population >= HIGH_POPULATION_THRESHOLD;
     }
 
     @Override
-    public EventResult execute(Piliakalnis p) {
-        if (p.population < 20) {
-            p.morale -= 2;
-            if (p.morale < 0) {p.morale = 0;}
-            String text = "DEMESIO! Kieme ir aplink piliakalni retai sutinkama zmoniu. Zmones nerimauja, ar uzteks ranku laukams, gynybai ir amatams.";
-            return new EventResult(text);
-        } else if (p.population > 120) {
-            p.morale += 1;
-            if (p.morale > 100) {p.morale = 100;}
-            String text = "Piliakalnyje verda gyvenimas, kiemai ir dirbtuves pilnos gyventoju. Zmones tiki, kad turininga bendruomene lengviau atlaikys sunkesnius laikus.";
-            return new EventResult(text);
+    protected NotificationOutcome resolveOutcome(Piliakalnis piliakalnis) {
+        if (piliakalnis.getPopulation() < LOW_POPULATION_THRESHOLD) {
+            return new NotificationOutcome(LOW_POPULATION_TEXT, LOW_MORALE_DELTA);
         }
-        return new EventResult("");
-    }
-
-    @Override
-    public boolean isRandom() {
-        return false;
+        return new NotificationOutcome(HIGH_POPULATION_TEXT, HIGH_MORALE_DELTA);
     }
 }

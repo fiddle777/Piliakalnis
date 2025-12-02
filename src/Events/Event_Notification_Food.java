@@ -1,10 +1,17 @@
 package Events;
 
-import Core.EventResult;
-import Core.GameEvent;
 import Core.Piliakalnis;
 
-public class Event_Notification_Food implements GameEvent {
+public class Event_Notification_Food extends NotificationEvent {
+
+    private static final int LOW_FOOD_MULTIPLIER = 1;
+    private static final int HIGH_FOOD_MULTIPLIER = 5;
+    private static final int LOW_MORALE_DELTA = -2;
+    private static final int HIGH_MORALE_DELTA = 1;
+    private static final String LOW_FOOD_TEXT = "DEMESIO! Sandeliuose maista galima suskaiciuoti ant pirstu. " +
+            "Zmones nerimauja del artinciu bado metu.";
+    private static final String HIGH_FOOD_TEXT = "Kloniuose ir sandeliuose matosi gausus derlius. " +
+            "Zmones jauciasi saugiau, nes artimiausiu metu badu nekvepia.";
 
     @Override
     public String getEventText() {
@@ -12,28 +19,17 @@ public class Event_Notification_Food implements GameEvent {
     }
 
     @Override
-    public boolean canTrigger(Piliakalnis p) {
-        return p.food < p.population || p.food >= p.population * 5;
+    public boolean canTrigger(Piliakalnis piliakalnis) {
+        int food = piliakalnis.getFood();
+        int population = piliakalnis.getPopulation();
+        return food < population * LOW_FOOD_MULTIPLIER || food >= population * HIGH_FOOD_MULTIPLIER;
     }
 
     @Override
-    public EventResult execute(Piliakalnis p) {
-        if (p.food < p.population) {
-            p.morale -= 2;
-            if (p.morale < 0) {p.morale = 0;}
-            String text = "DEMESIO! Sandeliuose maista galima suskaiciuoti ant pirstu. Zmones nerimauja del artinciu bado metu.";
-            return new EventResult(text);
-        } else if (p.food >= p.population * 5) {
-            p.morale += 1;
-            if (p.morale > 100) {p.morale = 100;}
-            String text = "Kloniuose ir sandeliuose matosi gausus derlius. Zmones jauciasi saugiau, nes artimiausiu metu badu nekvepia.";
-            return new EventResult(text);
+    protected NotificationOutcome resolveOutcome(Piliakalnis piliakalnis) {
+        if (piliakalnis.getFood() < piliakalnis.getPopulation() * LOW_FOOD_MULTIPLIER) {
+            return new NotificationOutcome(LOW_FOOD_TEXT, LOW_MORALE_DELTA);
         }
-        return new EventResult("");
-    }
-
-    @Override
-    public boolean isRandom() {
-        return false;
+        return new NotificationOutcome(HIGH_FOOD_TEXT, HIGH_MORALE_DELTA);
     }
 }

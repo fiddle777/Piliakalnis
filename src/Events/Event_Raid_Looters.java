@@ -1,10 +1,13 @@
 package Events;
 
 import Core.EventResult;
-import Core.GameEvent;
 import Core.Piliakalnis;
 
-public class Event_Raid_Looters implements GameEvent {
+public class Event_Raid_Looters extends BaseEvent {
+
+    private static final int DEFENSE_THRESHOLD = 20;
+    private static final int MORALE_LOSS = 4;
+    private static final int CHANCE_PERCENT = 10;
 
     @Override
     public String getEventText() {
@@ -12,33 +15,28 @@ public class Event_Raid_Looters implements GameEvent {
     }
 
     @Override
-    public boolean canTrigger(Piliakalnis p) {
-        return p.defense < 20 && (p.gold > 0 || p.food > 0);
+    public boolean canTrigger(Piliakalnis piliakalnis) {
+        return piliakalnis.getDefense() < DEFENSE_THRESHOLD && (piliakalnis.getGold() > 0 || piliakalnis.getFood() > 0);
     }
 
     @Override
-    public EventResult execute(Piliakalnis p) {
+    public EventResult execute(Piliakalnis piliakalnis) {
+        int goldLoss = piliakalnis.getGold() / 10;
+        int foodLoss = piliakalnis.getFood() / 10;
 
-        int goldLoss = p.gold/10;
-        int foodLoss = p.food/10;
-        int moraleLoss = 4;
-
-        p.gold -= goldLoss;
-        if (p.gold < 0) p.gold = 0;
-        p.food -= foodLoss;
-        if (p.food < 0) p.food = 0;
-        p.morale -= moraleLoss;
-        if (p.morale < 0) p.morale = 0;
+        adjustGold(piliakalnis, -goldLoss);
+        adjustFood(piliakalnis, -foodLoss);
+        adjustMorale(piliakalnis, -MORALE_LOSS);
 
         String text = "Plesikai nakti isibrauna i turgaviete.\n"
                 + "Sandeliuose dingsta " + goldLoss + " aukso ir " + foodLoss + " maisto.\n"
-                + "Zmones nepatenkinti, morale krenta -" + moraleLoss + ".";
+                + "Zmones nepatenkinti, morale krenta -" + MORALE_LOSS + ".";
 
         return new EventResult(text);
     }
 
     @Override
     public int getChancePercent() {
-        return 10;
+        return CHANCE_PERCENT;
     }
 }

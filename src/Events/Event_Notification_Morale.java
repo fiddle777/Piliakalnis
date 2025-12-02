@@ -1,10 +1,16 @@
 package Events;
 
-import Core.EventResult;
-import Core.GameEvent;
 import Core.Piliakalnis;
 
-public class Event_Notification_Morale implements GameEvent {
+public class Event_Notification_Morale extends NotificationEvent {
+
+    private static final int LOW_MORALE_THRESHOLD = 25;
+    private static final int HIGH_MORALE_THRESHOLD = 75;
+    private static final int LOW_MORALE_DELTA = -2;
+    private static final int HIGH_MORALE_DELTA = 1;
+    private static final String LOW_MORALE_TEXT = "DEMESIO! Turgavieteje ir prie lauzu girdisi nepasitenkinimo murmejimas. " +
+            "Jei niekas nesikeis, gali kilti rimtesni neramumai.";
+    private static final String HIGH_MORALE_TEXT = "Zmones kalba apie teisinga ir tvirta valdzia. Piliakalnyje tvyro pasitikejimo nuotaika.";
 
     @Override
     public String getEventText() {
@@ -12,28 +18,16 @@ public class Event_Notification_Morale implements GameEvent {
     }
 
     @Override
-    public boolean canTrigger(Piliakalnis p) {
-        return p.morale < 25 || p.morale >= 75;
+    public boolean canTrigger(Piliakalnis piliakalnis) {
+        int morale = piliakalnis.getMorale();
+        return morale < LOW_MORALE_THRESHOLD || morale >= HIGH_MORALE_THRESHOLD;
     }
 
     @Override
-    public EventResult execute(Piliakalnis p) {
-        if (p.morale < 25) {
-            p.morale -= 2;
-            if (p.morale < 0) {p.morale = 0;}
-            String text = "DEMESIO! Turgavieteje ir prie lauzu girdisi nepasitenkinimo murmejimas. Jei niekas nesikeis, gali kilti rimtesni neramumai.";
-            return new EventResult(text);
-        } else if (p.morale >= 75) {
-            p.morale += 1;
-            if (p.morale > 100) {p.morale = 100;}
-            String text = "Zmones kalba apie teisinga ir tvirta valdzia. Piliakalnyje tvyro pasitikejimo nuotaika.";
-            return new EventResult(text);
+    protected NotificationOutcome resolveOutcome(Piliakalnis piliakalnis) {
+        if (piliakalnis.getMorale() < LOW_MORALE_THRESHOLD) {
+            return new NotificationOutcome(LOW_MORALE_TEXT, LOW_MORALE_DELTA);
         }
-        return new EventResult("");
-    }
-
-    @Override
-    public boolean isRandom() {
-        return false;
+        return new NotificationOutcome(HIGH_MORALE_TEXT, HIGH_MORALE_DELTA);
     }
 }

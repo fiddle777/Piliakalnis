@@ -1,12 +1,20 @@
 package Events;
 
 import Core.EventResult;
-import Core.GameEvent;
 import Core.Piliakalnis;
 
 import java.util.Random;
 
-public class Event_Raid_Teutons implements GameEvent {
+public class Event_Raid_Teutons extends BaseEvent {
+
+    private static final int START_YEAR = 1230;
+    private static final int MIN_FAITH = 21;
+    private static final int MIN_POPULATION = 1;
+    private static final int CHANCE_PERCENT = 8;
+    private static final int BASE_MORALE_LOSS = 6;
+    private static final int FOOD_LOSS_DIVISOR = 10;
+    private static final int POP_LOSS_DIVISOR_BASE = 5;
+    private static final int POP_LOSS_VARIATION = 10;
 
     private final Random rnd = new Random();
 
@@ -16,36 +24,29 @@ public class Event_Raid_Teutons implements GameEvent {
     }
 
     @Override
-    public boolean canTrigger(Piliakalnis p) {
-        return p.year >= 1230 && p.faith > 20 && p.population > 0;
+    public boolean canTrigger(Piliakalnis piliakalnis) {
+        return piliakalnis.getYear() >= START_YEAR && piliakalnis.getFaith() >= MIN_FAITH && piliakalnis.getPopulation() >= MIN_POPULATION;
     }
 
     @Override
-    public EventResult execute(Piliakalnis p) {
+    public EventResult execute(Piliakalnis piliakalnis) {
+        int foodLoss = piliakalnis.getFood() / FOOD_LOSS_DIVISOR;
+        int popLoss = piliakalnis.getPopulation() / (POP_LOSS_DIVISOR_BASE + rnd.nextInt(POP_LOSS_VARIATION));
 
-        int foodLoss = p.food/10;
-        int popLoss = p.population / (5 + rnd.nextInt(10)); // pop/5 to pop/14
-        int moraleLoss = 6;
-
-        p.food -= foodLoss;
-        if (p.food < 0) p.food = 0;
-
-        p.population -= popLoss;
-        if (p.population < 0) p.population = 0;
-
-        p.morale -= moraleLoss;
-        if (p.morale < 0) p.morale = 0;
+        adjustFood(piliakalnis, -foodLoss);
+        adjustPopulation(piliakalnis, -popLoss);
+        adjustMorale(piliakalnis, -BASE_MORALE_LOSS);
 
         String text = "APGULTIS! Kryziuociu ordinas degina musu zemes!\n"
                 + "Balti skydai, geleziniai kryziai ir zirgu trepsejimas skamba kaip mirties varpai.\n"
                 + "Piliakalnis atsilaiko, bet pavaldiniai kencia.\n"
-                + "zmoniu zuvo " + popLoss + ", o morale smunka -" + moraleLoss + ". Prarasta maisto " + foodLoss + ".";
+                + "zmoniu zuvo " + popLoss + ", o morale smunka -" + BASE_MORALE_LOSS + ". Prarasta maisto " + foodLoss + ".";
 
         return new EventResult(text);
     }
 
     @Override
     public int getChancePercent() {
-        return 8;
+        return CHANCE_PERCENT;
     }
 }

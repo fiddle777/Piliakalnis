@@ -1,10 +1,16 @@
 package Events;
 
 import Core.EventResult;
-import Core.GameEvent;
 import Core.Piliakalnis;
 
-public class Event_Raid_Livonians implements GameEvent {
+public class Event_Raid_Livonians extends BaseEvent {
+
+    private static final int START_YEAR = 1202;
+    private static final int END_YEAR = 1235;
+    private static final int FAITH_REQUIREMENT = 20;
+    private static final int HIGH_DEFENSE_THRESHOLD = 50;
+    private static final int MID_DEFENSE_THRESHOLD = 20;
+    private static final int CHANCE_PERCENT = 6;
 
     @Override
     public String getEventText() {
@@ -12,36 +18,33 @@ public class Event_Raid_Livonians implements GameEvent {
     }
 
     @Override
-    public boolean canTrigger(Piliakalnis p) {
-        return p.year >= 1202 && p.year <= 1235 && p.faith > 20;
+    public boolean canTrigger(Piliakalnis piliakalnis) {
+        return piliakalnis.getYear() >= START_YEAR && piliakalnis.getYear() <= END_YEAR && piliakalnis.getFaith() > FAITH_REQUIREMENT;
     }
 
     @Override
-    public EventResult execute(Piliakalnis p) {
-        int popLoss = 0;
-        int foodLoss = 0;
-        int moraleLoss = 0;
+    public EventResult execute(Piliakalnis piliakalnis) {
+        int popLoss;
+        int foodLoss;
+        int moraleLoss;
 
-        if (p.defense < 20) {
-            popLoss = p.population/10;
-            foodLoss = p.food/4;
+        if (piliakalnis.getDefense() < MID_DEFENSE_THRESHOLD) {
+            popLoss = piliakalnis.getPopulation() / 10;
+            foodLoss = piliakalnis.getFood() / 4;
             moraleLoss = 10;
-        } else if (p.defense <= 50) {
-            popLoss = p.population/20;
-            foodLoss = p.food/6;
+        } else if (piliakalnis.getDefense() <= HIGH_DEFENSE_THRESHOLD) {
+            popLoss = piliakalnis.getPopulation() / 20;
+            foodLoss = piliakalnis.getFood() / 6;
             moraleLoss = 6;
         } else {
-            popLoss = p.population/30;
-            foodLoss = p.food/8;
+            popLoss = piliakalnis.getPopulation() / 30;
+            foodLoss = piliakalnis.getFood() / 8;
             moraleLoss = 3;
         }
 
-        p.population -= popLoss;
-        if (p.population < 0) p.population = 0;
-        p.food -= foodLoss;
-        if (p.food < 0) p.food = 0;
-        p.morale -= moraleLoss;
-        if (p.morale < 0) p.morale = 0;
+        adjustPopulation(piliakalnis, -popLoss);
+        adjustFood(piliakalnis, -foodLoss);
+        adjustMorale(piliakalnis, -moraleLoss);
 
         String text = "APGULTIS! Kalavijuociu pulkai uzslenka is Livonijos, tikrindami nepavergtu zemiu tvirtuma.\n"
                 + "Kardeliai kieto plieno isbando tvirtoves ir pavaldiniu stipruma.\n"
@@ -54,6 +57,6 @@ public class Event_Raid_Livonians implements GameEvent {
 
     @Override
     public int getChancePercent() {
-        return 6;
+        return CHANCE_PERCENT;
     }
 }

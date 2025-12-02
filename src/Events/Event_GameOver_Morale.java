@@ -1,10 +1,9 @@
 package Events;
 
 import Core.EventResult;
-import Core.GameEvent;
 import Core.Piliakalnis;
 
-public class Event_GameOver_Morale implements GameEvent {
+public class Event_GameOver_Morale extends BaseEvent {
 
     @Override
     public String getEventText() {
@@ -12,12 +11,12 @@ public class Event_GameOver_Morale implements GameEvent {
     }
 
     @Override
-    public boolean canTrigger(Piliakalnis p) {
-        return p.getMorale() <= 0;
+    public boolean canTrigger(Piliakalnis piliakalnis) {
+        return piliakalnis.getMorale() <= 0;
     }
 
     @Override
-    public EventResult execute(Piliakalnis p) {
+    public EventResult execute(Piliakalnis piliakalnis) {
         String text = "Pavaldiniai nebetiki jumis kaip valdovu. Jie sukyla ir jus nuvercia.\n" +
                 "Jusu valdymas baigesi.";
         return new EventResult(text, true);

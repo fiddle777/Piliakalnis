@@ -1,11 +1,9 @@
 package Events;
 
 import Core.EventResult;
-import Core.GameConfig;
-import Core.GameEvent;
 import Core.Piliakalnis;
 
-public class Event_Flavour_Missionaries implements GameEvent {
+public class Event_Flavour_Missionaries extends BaseEvent {
 
     private static final int YEAR_THRESHOLD = 1220;
     private static final int HIGH_FAITH_THRESHOLD = 20;
@@ -29,60 +27,37 @@ public class Event_Flavour_Missionaries implements GameEvent {
     }
 
     @Override
-    public boolean canTrigger(Piliakalnis p) {
-        return p.getYear() >= YEAR_THRESHOLD;
+    public boolean canTrigger(Piliakalnis piliakalnis) {
+        return piliakalnis.getYear() >= YEAR_THRESHOLD;
     }
 
     @Override
-    public EventResult execute(Piliakalnis p) {
+    public EventResult execute(Piliakalnis piliakalnis) {
         String text;
 
-        // HIGH FAITH (> 20)
-        if (p.getFaith() > HIGH_FAITH_THRESHOLD) {
-            p.setFaith(p.getFaith() + HIGH_FAITH_GAIN);
-            if (p.getFaith() > GameConfig.MAX_FAITH) {
-                p.setFaith(GameConfig.MAX_FAITH);
-            }
-
-            p.setMorale(p.getMorale() + HIGH_MORALE_GAIN);
-            if (p.getMorale() > GameConfig.MAX_MORALE) {
-                p.setMorale(GameConfig.MAX_MORALE);
-            }
-
+        if (piliakalnis.getFaith() > HIGH_FAITH_THRESHOLD) {
+            adjustFaith(piliakalnis, HIGH_FAITH_GAIN);
+            adjustMorale(piliakalnis, HIGH_MORALE_GAIN);
             text = "Sventasis Brunonas, vadinamas Bonifacijumi, arkivyskupas ir vienuolis, \n" +
                     "vienuoliktais savo atsivertimo metais Rusios ir Lietuvos pasienyje \n" +
                     "pagoniu buvo nukirsdintas kartu su astuoniolika savo biciuliu ir 1009 m. kovo 9 diena pasieke dangu.\n" +
-                    "Tikejimas sustipreja (+5), o bendruomene jauciasi susivienijusi (+1 morale).";
-
-            // LOW FAITH (< 10)
-        } else if (p.getFaith() < LOW_FAITH_THRESHOLD) {
-
-            p.setFaith(p.getFaith() - LOW_FAITH_LOSS);
-            if (p.getFaith() < 0) p.setFaith(0);
-
-            p.setMorale(p.getMorale() - LOW_MORALE_LOSS);
-            if (p.getMorale() < 0) p.setMorale(0);
-
-            p.setGold(p.getGold() + LOW_GOLD_GAIN);
-
+                    "Tikejimas sustipreja (+" + HIGH_FAITH_GAIN + "), o bendruomene jauciasi susivienijusi (+" + HIGH_MORALE_GAIN + " morale).";
+        } else if (piliakalnis.getFaith() < LOW_FAITH_THRESHOLD) {
+            adjustFaith(piliakalnis, -LOW_FAITH_LOSS);
+            adjustMorale(piliakalnis, -LOW_MORALE_LOSS);
+            adjustGold(piliakalnis, LOW_GOLD_GAIN);
             text = "Pranasai is vakarietisku zemiu ateina skelbti keistu ziniu. \n" +
-                    "Svietejai dalina dovanas ir Rigos mieste nukaltus sidabrinius tiems, kurie kriksta priimsia\n" +
-                    "Dalis zmoniu suabejoja senu dievu galia (-5 tikejimo), morale krenta (-1), \n" +
-                    "bet i piliakalni iteka +10 aukso.";
-
-            // MIDDLE FAITH (10–20)
+                    "Svietejai dalina dovanas ir Rigos mieste nukaltus sidabrinius tiems, kurie kriksta priimsia.\n" +
+                    "Dalis zmoniu suabejoja senu dievu galia (-" + LOW_FAITH_LOSS + " tikejimo), morale krenta (-" + LOW_MORALE_LOSS + "), \n" +
+                    "bet i piliakalni iteka +" + LOW_GOLD_GAIN + " aukso.";
         } else {
-
-            p.setGold(p.getGold() + MID_GOLD_GAIN);
-
-            p.setMorale(p.getMorale() - MID_MORALE_LOSS);
-            if (p.getMorale() < 0) p.setMorale(0);
-
+            adjustGold(piliakalnis, MID_GOLD_GAIN);
+            adjustMorale(piliakalnis, -MID_MORALE_LOSS);
             text = "Pranasai is vakarietisku zemiu ateina skelbti keistu ziniu. \n" +
                     "Vieni klausosi su idomumu, kiti raukosi, treti ziuri i dovanas ir mandrus audeklus. \n" +
                     "Daug nesikeicia, bet kazkiek svetimu tradiciju prasisunkia, \n" +
-                    "o keletas sidabriniu (+5) atsiduria piliakalnio aruoduose, \n" +
-                    "taciau dalis bendruomenes jauciasi sutrikusi (-1 morale).";
+                    "o keletas sidabriniu (+" + MID_GOLD_GAIN + ") atsiduria piliakalnio aruoduose, \n" +
+                    "taciau dalis bendruomenes jauciasi sutrikusi (-" + MID_MORALE_LOSS + " morale).";
         }
 
         return new EventResult(text);

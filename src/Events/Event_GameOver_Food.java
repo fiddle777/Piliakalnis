@@ -1,10 +1,9 @@
 package Events;
 
 import Core.EventResult;
-import Core.GameEvent;
 import Core.Piliakalnis;
 
-public class Event_GameOver_Food implements GameEvent {
+public class Event_GameOver_Food extends BaseEvent {
 
     @Override
     public String getEventText() {
@@ -12,12 +11,12 @@ public class Event_GameOver_Food implements GameEvent {
     }
 
     @Override
-    public boolean canTrigger(Piliakalnis p) {
-        return p.getFood() <= 0;
+    public boolean canTrigger(Piliakalnis piliakalnis) {
+        return piliakalnis.getFood() <= 0;
     }
 
     @Override
-    public EventResult execute(Piliakalnis p) {
+    public EventResult execute(Piliakalnis piliakalnis) {
         String text = "Maisto atsargos visiskai isseko. Likusieji issiskirste arba mire nuo bado.\n" +
                 "Jusu valdymas baigesi.";
         return new EventResult(text, true);

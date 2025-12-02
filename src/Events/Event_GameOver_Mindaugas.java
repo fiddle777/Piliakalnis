@@ -1,10 +1,11 @@
 package Events;
 
 import Core.EventResult;
-import Core.GameEvent;
 import Core.Piliakalnis;
 
-public class Event_GameOver_Mindaugas implements GameEvent {
+public class Event_GameOver_Mindaugas extends BaseEvent {
+
+    private static final int CROWNING_YEAR = 1251;
 
     @Override
     public String getEventText() {
@@ -12,12 +13,12 @@ public class Event_GameOver_Mindaugas implements GameEvent {
     }
 
     @Override
-    public boolean canTrigger(Piliakalnis p) {
-        return p.getYear() == 1251;
+    public boolean canTrigger(Piliakalnis piliakalnis) {
+        return piliakalnis.getYear() == CROWNING_YEAR;
     }
 
     @Override
-    public EventResult execute(Piliakalnis p) {
+    public EventResult execute(Piliakalnis piliakalnis) {
         String text = "1251 metais Mindaugas pakrikstomas ir pripazistamas karaliumi.\n" +
                 "Jusu piliakalnis issilaike sunkius metus ir prisidejo prie zemiu stiprejimo.\n" +
                 "Jusu vardas bus minimas salia kitu valdovu.";

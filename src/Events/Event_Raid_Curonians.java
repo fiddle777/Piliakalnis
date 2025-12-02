@@ -1,10 +1,12 @@
 package Events;
 
 import Core.EventResult;
-import Core.GameEvent;
 import Core.Piliakalnis;
 
-public class Event_Raid_Curonians implements GameEvent {
+public class Event_Raid_Curonians extends BaseEvent {
+
+    private static final int FAITH_THRESHOLD = 15;
+    private static final int CHANCE_PERCENT = 6;
 
     @Override
     public String getEventText() {
@@ -12,34 +14,30 @@ public class Event_Raid_Curonians implements GameEvent {
     }
 
     @Override
-    public boolean canTrigger(Piliakalnis p) {
-        return p.faith < 15;
+    public boolean canTrigger(Piliakalnis piliakalnis) {
+        return piliakalnis.getFaith() < FAITH_THRESHOLD;
     }
 
     @Override
-    public EventResult execute(Piliakalnis p) {
+    public EventResult execute(Piliakalnis piliakalnis) {
+        int goldLoss = piliakalnis.getGold() / 4;
+        int moraleLoss = piliakalnis.getMorale() / 3;
+        int popLoss = piliakalnis.getPopulation() / 20;
 
-        int goldLoss = p.gold/4;
-        int moraleLoss = p.morale/3;
-        int popLoss = p.population/20;
-
-        p.gold -= goldLoss;
-        if (p.gold < 0) p.gold = 0;
-        p.morale += moraleLoss;
-        if (p.morale < 0) p.morale = 0;
-        p.population -= popLoss;
-        if (p.population < 0) p.population = 0;
+        adjustGold(piliakalnis, -goldLoss);
+        adjustMorale(piliakalnis, -moraleLoss);
+        adjustPopulation(piliakalnis, -popLoss);
 
         String text = "Apgultis! Kursiu luotai upe atplaukia!\n"
                 + "isnesamas grobis - prarandate " + goldLoss + " aukso.\n"
-                + "prie lauzo sklinda istorijos apie narsias kautynes.\n"
-                + "morale krenta, -" + moraleLoss + ", zuvo " + popLoss + ".";
+                + "Prie lauzo sklinda istorijos apie narsias kautynes.\n"
+                + "Morale krenta, -" + moraleLoss + ", zuvo " + popLoss + ".";
 
         return new EventResult(text);
     }
 
     @Override
     public int getChancePercent() {
-        return 6;
+        return CHANCE_PERCENT;
     }
 }

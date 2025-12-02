@@ -1,25 +1,26 @@
 package Events;
 
 import Core.EventResult;
-import Core.GameEvent;
 import Core.Piliakalnis;
 
-public class Event_GameOver_Population implements GameEvent {
+public class Event_GameOver_Population extends BaseEvent {
+
+    private static final int MIN_POPULATION = 1;
 
     @Override
     public String getEventText() {
-        return "Piliakalnis tuscias";
+        return "Zlugimas del gyventoju trukumo";
     }
 
     @Override
-    public boolean canTrigger(Piliakalnis p) {
-        return p.getPopulation() <= 0;
+    public boolean canTrigger(Piliakalnis piliakalnis) {
+        return piliakalnis.getPopulation() < MIN_POPULATION;
     }
 
     @Override
-    public EventResult execute(Piliakalnis p) {
-        String text = "Piliakalnyje neliko zmoniu. Nera kam prisiminti jusu vardo.\n" +
-                "Jusu valdymas baigesi.";
+    public EventResult execute(Piliakalnis piliakalnis) {
+        String text = "Gyventoju likutis issivaiksto arba yra sunaikinamas.\n" +
+                "Piliakalnyje nebepakanka zmoniu gyventi, juo labiau ginti.";
         return new EventResult(text, true);
     }
 
