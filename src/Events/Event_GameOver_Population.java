@@ -2,6 +2,7 @@ package Events;
 
 import Core.EventResult;
 import Core.GameEvent;
+import Core.Piliakalnis;
 
 public class Event_GameOver_Population implements GameEvent {
 
@@ -11,13 +12,14 @@ public class Event_GameOver_Population implements GameEvent {
     }
 
     @Override
-    public boolean canTrigger(Core.Piliakalnis p) {
-        return p.population <= 0;
+    public boolean canTrigger(Piliakalnis p) {
+        return p.getPopulation() <= 0;
     }
 
     @Override
-    public EventResult execute(Core.Piliakalnis p) {
-        String text = "Piliakalnyje neliko zmoniu. Nera kam prisiminti jusu vardo.\nJusu valdymas baigesi.";
+    public EventResult execute(Piliakalnis p) {
+        String text = "Piliakalnyje neliko zmoniu. Nera kam prisiminti jusu vardo.\n" +
+                "Jusu valdymas baigesi.";
         return new EventResult(text, true);
     }
 

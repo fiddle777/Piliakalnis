@@ -5,6 +5,12 @@ import Core.GameEvent;
 import Core.Piliakalnis;
 
 public class Event_Notification_Defense implements GameEvent {
+
+    private static final int LOW_DEFENSE_THRESHOLD = 20;
+    private static final int HIGH_DEFENSE_THRESHOLD = 60;
+    private static final int LOW_DEFENSE_MORALE_LOSS = 2;
+    private static final int HIGH_DEFENSE_MORALE_GAIN = 1;
+
     @Override
     public String getEventText() {
         return "Gynybos bukles ispejimas";
@@ -12,23 +18,33 @@ public class Event_Notification_Defense implements GameEvent {
 
     @Override
     public boolean canTrigger(Piliakalnis p) {
-        return p.defense < 20 || p.defense >= 60;
+        return p.getDefense() < LOW_DEFENSE_THRESHOLD ||
+                p.getDefense() >= HIGH_DEFENSE_THRESHOLD;
     }
 
     @Override
     public EventResult execute(Piliakalnis p) {
-        if(p.defense < 20) {
-            p.morale -= 2;
-            if(p.morale < 0) {p.morale = 0;}
+
+        // CASE 1: Defense < 20 → morale -2 (clamped at 0)
+        if (p.getDefense() < LOW_DEFENSE_THRESHOLD) {
+            p.setMorale(p.getMorale() - LOW_DEFENSE_MORALE_LOSS);
+            if (p.getMorale() < 0) {
+                p.setMorale(0);
+            }
             String text = "DEMESIO! Gynyba labai silpna, zmones nerimauja del galimu uzpuolimu.";
             return new EventResult(text);
         }
-        else if(p.defense >= 60) {
-            p.morale += 1;
-            if(p.morale > 100) {p.morale = 100;}
+
+        // CASE 2: Defense >= 60 → morale +1 (clamped at 100)
+        if (p.getDefense() >= HIGH_DEFENSE_THRESHOLD) {
+            p.setMorale(p.getMorale() + HIGH_DEFENSE_MORALE_GAIN);
+            if (p.getMorale() > 100) {
+                p.setMorale(100);
+            }
             String text = "Zvalgyba pranesa, kad piliakalnio gynyba laikoma pakankama, zmones jauciasi saugiau.";
             return new EventResult(text);
         }
+
         return new EventResult("");
     }
 

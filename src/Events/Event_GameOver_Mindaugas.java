@@ -5,6 +5,7 @@ import Core.GameEvent;
 import Core.Piliakalnis;
 
 public class Event_GameOver_Mindaugas implements GameEvent {
+
     @Override
     public String getEventText() {
         return "Mindaugas pakrikstytas karaliumi";
@@ -12,7 +13,7 @@ public class Event_GameOver_Mindaugas implements GameEvent {
 
     @Override
     public boolean canTrigger(Piliakalnis p) {
-        return p.year == 1251;
+        return p.getYear() == 1251;
     }
 
     @Override
