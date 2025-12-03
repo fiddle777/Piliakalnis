@@ -5,6 +5,7 @@ import Core.GameAction;
 import Core.Piliakalnis;
 
 public class Action_Action_Hunt implements GameAction {
+
     @Override
     public String getName() {
         return "Organizuoti medziokle";
@@ -22,12 +23,14 @@ public class Action_Action_Hunt implements GameAction {
 
     @Override
     public boolean isAvailable(Piliakalnis p) {
-        return p.population >= 10;
+        return p.getPopulation() >= 10;
     }
 
     @Override
     public ActionResult execute(Piliakalnis p) {
-        p.food += p.population;
+        int gainedFood = p.getPopulation();
+        p.setFood(p.getFood() + gainedFood);
+
         String story = "Valdovo isakymu gyventojai organizuoja medziokle ir papildo maisto atsargas.";
         return new ActionResult(story);
     }

@@ -8,7 +8,7 @@ public class Action_Build_Farmstead implements GameAction {
 
     @Override
     public String getName() {
-        return "Plesti ukii / garda";
+        return "Plesti uki";
     }
 
     @Override
@@ -23,15 +23,19 @@ public class Action_Build_Farmstead implements GameAction {
 
     @Override
     public boolean isAvailable(Piliakalnis p) {
-        return p.farmLevel < 3 && p.gold >= 120 && p.population >= 5;
+        return p.getFarmLevel() < 3
+                && p.getGold() >= 120
+                && p.getPopulation() >= 5;
     }
 
     @Override
     public ActionResult execute(Piliakalnis p) {
-        p.gold -= 120;
-        p.farmLevel += 1;
-        String story = "Jus pleciate uki bei gyvuliu gardus.\n"
-                + "Maisto gamyba padideja, ukio lygis: " + p.farmLevel + ".";
+        p.setGold(Math.max(0, p.getGold() - 120));
+        p.setFarmLevel(p.getFarmLevel() + 1);
+
+        String story = "Pleciate ukio strukturas ir paskirstote zemes. "
+                + "Ilgainiui maisto atsargos augs sparciau. "
+                + "Ukio lygis: " + p.getFarmLevel() + ".";
         return new ActionResult(story);
     }
 

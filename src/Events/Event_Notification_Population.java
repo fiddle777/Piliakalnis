@@ -1,10 +1,16 @@
 package Events;
 
 import Core.EventResult;
+import Core.GameConfig;
 import Core.GameEvent;
 import Core.Piliakalnis;
 
 public class Event_Notification_Population implements GameEvent {
+
+    private static final int LOW_POP_THRESHOLD = 20;
+    private static final int HIGH_POP_THRESHOLD = 120;
+    private static final int MORALE_PENALTY = 2;
+    private static final int MORALE_BONUS = 1;
 
     @Override
     public String getEventText() {
@@ -13,22 +19,28 @@ public class Event_Notification_Population implements GameEvent {
 
     @Override
     public boolean canTrigger(Piliakalnis p) {
-        return p.population < 20 || p.population > 120;
+        return p.getPopulation() < LOW_POP_THRESHOLD || p.getPopulation() > HIGH_POP_THRESHOLD;
     }
 
     @Override
     public EventResult execute(Piliakalnis p) {
-        if (p.population < 20) {
-            p.morale -= 2;
-            if (p.morale < 0) {p.morale = 0;}
-            String text = "DEMESIO! Kieme ir aplink piliakalni retai sutinkama zmoniu. Zmones nerimauja, ar uzteks ranku laukams, gynybai ir amatams.";
+        if (p.getPopulation() < LOW_POP_THRESHOLD) {
+            int newMorale = Math.max(0, p.getMorale() - MORALE_PENALTY);
+            p.setMorale(newMorale);
+
+            String text = "DEMESIO! Kieme ir aplink piliakalni retai matyti judesys.\n"
+                    + "Truksta ranku laukams, gynybai ir amatams – zmones nerimauja.";
             return new EventResult(text);
-        } else if (p.population > 120) {
-            p.morale += 1;
-            if (p.morale > 100) {p.morale = 100;}
-            String text = "Piliakalnyje verda gyvenimas, kiemai ir dirbtuves pilnos gyventoju. Zmones tiki, kad turininga bendruomene lengviau atlaikys sunkesnius laikus.";
+
+        } else if (p.getPopulation() > HIGH_POP_THRESHOLD) {
+            int newMorale = Math.min(GameConfig.MAX_MORALE, p.getMorale() + MORALE_BONUS);
+            p.setMorale(newMorale);
+
+            String text = "Piliakalnyje verda gyvenimas, kiemai ir dirbtuves pilnos gyventoju.\n"
+                    + "Zmones tiki, kad turininga bendruomene lengviau atlaikys sunkesnius laikus.";
             return new EventResult(text);
         }
+
         return new EventResult("");
     }
 

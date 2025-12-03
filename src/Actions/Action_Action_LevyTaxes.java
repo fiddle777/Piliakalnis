@@ -2,6 +2,7 @@ package Actions;
 
 import Core.ActionResult;
 import Core.GameAction;
+import Core.GameConfig;
 import Core.Piliakalnis;
 
 public class Action_Action_LevyTaxes implements GameAction {
@@ -23,15 +24,19 @@ public class Action_Action_LevyTaxes implements GameAction {
 
     @Override
     public boolean isAvailable(Piliakalnis p) {
-        return p.population >= 20;
+        return p.getPopulation() >= 20;
     }
 
     @Override
     public ActionResult execute(Piliakalnis p) {
-        p.gold += 50;
-        p.morale -= 10;
+        p.setGold(p.getGold() + 50);
 
-        String story = "Pavaldiniai sumoka metinius mokescius. Izdas padideja, bet morale krenta.";
+        int newMorale = Math.max(0, p.getMorale() - 10);
+        newMorale = Math.min(GameConfig.MAX_MORALE, newMorale);
+        p.setMorale(newMorale);
+
+        String story = "Paskelbiate metinius mokescius. Izdas pasipildo, "
+                + "bet pavaldiniu morale krenta.";
         return new ActionResult(story);
     }
 

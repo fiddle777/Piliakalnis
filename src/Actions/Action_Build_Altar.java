@@ -2,6 +2,7 @@ package Actions;
 
 import Core.ActionResult;
 import Core.GameAction;
+import Core.GameConfig;
 import Core.Piliakalnis;
 
 public class Action_Build_Altar implements GameAction {
@@ -23,17 +24,20 @@ public class Action_Build_Altar implements GameAction {
 
     @Override
     public boolean isAvailable(Piliakalnis p) {
-        return p.altarLevel < 3 && p.gold >= 100;
+        return p.getAltarLevel() < 3 && p.getGold() >= 100;
     }
 
     @Override
     public ActionResult execute(Piliakalnis p) {
-        p.gold -= 100;
-        p.altarLevel += 1;
-        p.morale += 5;
+        p.setGold(Math.max(0, p.getGold() - 100));
+        p.setAltarLevel(p.getAltarLevel() + 1);
 
-        String story = "Ant piliakalnio statote nauja aukura.\n"
-                + "Tikejimas ir morale sustipreja, aukuro lygis: " + p.altarLevel + ".";
+        int newMorale = Math.min(GameConfig.MAX_MORALE, p.getMorale() + 5);
+        p.setMorale(newMorale);
+
+        String story = "Pastatote nauja aukuro pakopa. Zmones dazniau renkasi apeigoms, "
+                + "o tikejimas jumis, Valdove, stipreja. "
+                + "Aukuro lygis: " + p.getAltarLevel() + ".";
         return new ActionResult(story);
     }
 

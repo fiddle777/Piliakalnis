@@ -2,13 +2,14 @@ package Actions;
 
 import Core.ActionResult;
 import Core.GameAction;
+import Core.GameConfig;
 import Core.Piliakalnis;
 
 public class Action_Build_Fort implements GameAction {
 
     @Override
     public String getName() {
-        return "Stiprinti fortifikacijas";
+        return "Stiprinti gynyba";
     }
 
     @Override
@@ -23,17 +24,22 @@ public class Action_Build_Fort implements GameAction {
 
     @Override
     public boolean isAvailable(Piliakalnis p) {
-        return p.gold >= 150 && p.population >= 30 && p.fortLevel < 3;
+        return p.getGold() >= 150
+                && p.getPopulation() >= 30
+                && p.getFortLevel() < 3;
     }
 
     @Override
     public ActionResult execute(Piliakalnis p) {
-        p.gold -= 150;
-        p.fortLevel += 1;
-        p.defense += 20;
+        p.setGold(Math.max(0, p.getGold() - 150));
+        p.setFortLevel(p.getFortLevel() + 1);
 
-        String story = "Jus stiprinate gynybines fortifikacijas aplink piliakalni.\n"
-                + "Gynyba padideja, dabar fortifikaciju lygis: " + p.fortLevel + ".";
+        int newDefense = Math.min(GameConfig.MAX_DEFENSE, p.getDefense() + 20);
+        p.setDefense(newDefense);
+
+        String story = "Jus stiprinate gynybines fortifikacijas aplink piliakalni. "
+                + "Sienos auksteja, tvoros tvirtinamos, "
+                + "gynyba padideja, dabar fortifikaciju lygis: " + p.getFortLevel() + ".";
         return new ActionResult(story);
     }
 

@@ -2,6 +2,7 @@ package Actions;
 
 import Core.ActionResult;
 import Core.GameAction;
+import Core.GameConfig;
 import Core.Piliakalnis;
 
 public class Action_Action_PerformRitual implements GameAction {
@@ -23,15 +24,18 @@ public class Action_Action_PerformRitual implements GameAction {
 
     @Override
     public boolean isAvailable(Piliakalnis p) {
-        return p.food >= 20;
+        return p.getFood() >= 20;
     }
 
     @Override
     public ActionResult execute(Piliakalnis p) {
-        p.food -= 20;
-        p.faith += 15;
+        p.setFood(Math.max(0, p.getFood() - 20));
 
-        String story = "Aukure atliekamas ritualas. Dievai nurimsta, zmoniu tikejimas sustipreja.";
+        int newFaith = Math.min(GameConfig.MAX_FAITH, p.getFaith() + 15);
+        p.setFaith(newFaith);
+
+        String story = "Aukure aukojate maista ir atliekate rituala. "
+                + "Zmoniu tikejimas ir dievu palankumo jausmas sustipreja.";
         return new ActionResult(story);
     }
 

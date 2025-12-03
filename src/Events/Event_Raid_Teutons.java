@@ -8,6 +8,11 @@ import java.util.Random;
 
 public class Event_Raid_Teutons implements GameEvent {
 
+    private static final int MIN_YEAR = 1230;
+    private static final int MIN_FAITH = 20;
+    private static final int MORALE_LOSS = 6;
+    private static final int CHANCE_PERCENT = 8;
+
     private final Random rnd = new Random();
 
     @Override
@@ -17,35 +22,30 @@ public class Event_Raid_Teutons implements GameEvent {
 
     @Override
     public boolean canTrigger(Piliakalnis p) {
-        return p.year >= 1230 && p.faith > 20 && p.population > 0;
+        return p.getYear() >= MIN_YEAR
+                && p.getFaith() > MIN_FAITH
+                && p.getPopulation() > 0;
     }
 
     @Override
     public EventResult execute(Piliakalnis p) {
+        int foodLoss = p.getFood() / 10;
+        int popLoss = p.getPopulation() / (5 + rnd.nextInt(10)); // pop/5 to pop/14
 
-        int foodLoss = p.food/10;
-        int popLoss = p.population / (5 + rnd.nextInt(10)); // pop/5 to pop/14
-        int moraleLoss = 6;
-
-        p.food -= foodLoss;
-        if (p.food < 0) p.food = 0;
-
-        p.population -= popLoss;
-        if (p.population < 0) p.population = 0;
-
-        p.morale -= moraleLoss;
-        if (p.morale < 0) p.morale = 0;
+        p.setFood(Math.max(0, p.getFood() - foodLoss));
+        p.setPopulation(Math.max(0, p.getPopulation() - popLoss));
+        p.setMorale(Math.max(0, p.getMorale() - MORALE_LOSS));
 
         String text = "APGULTIS! Kryziuociu ordinas degina musu zemes!\n"
                 + "Balti skydai, geleziniai kryziai ir zirgu trepsejimas skamba kaip mirties varpai.\n"
                 + "Piliakalnis atsilaiko, bet pavaldiniai kencia.\n"
-                + "zmoniu zuvo " + popLoss + ", o morale smunka -" + moraleLoss + ". Prarasta maisto " + foodLoss + ".";
+                + "Zmoniu zuvo " + popLoss + ", o morale smunka -" + MORALE_LOSS + ". Prarasta maisto " + foodLoss + ".";
 
         return new EventResult(text);
     }
 
     @Override
     public int getChancePercent() {
-        return 8;
+        return CHANCE_PERCENT;
     }
 }

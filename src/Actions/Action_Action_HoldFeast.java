@@ -2,8 +2,11 @@ package Actions;
 
 import Core.ActionResult;
 import Core.GameAction;
+import Core.GameConfig;
 import Core.Piliakalnis;
+
 public class Action_Action_HoldFeast implements GameAction {
+
     @Override
     public String getName() {
         return "Rengti puota";
@@ -21,15 +24,18 @@ public class Action_Action_HoldFeast implements GameAction {
 
     @Override
     public boolean isAvailable(Piliakalnis p) {
-        return p.food >= 40;
+        return p.getFood() >= 40;
     }
 
     @Override
     public ActionResult execute(Piliakalnis p) {
-        p.food -= 40;
-        p.morale += 20;
+        p.setFood(Math.max(0, p.getFood() - 40));
 
-        String story = "Surengiate puota savo valstieciams. Maisto atsargos mazeja, bet nuotaika pagereja.";
+        int newMorale = Math.min(GameConfig.MAX_MORALE, p.getMorale() + 20);
+        p.setMorale(newMorale);
+
+        String story = "Surengiate puota savo valstieciams. Maisto atsargos sumazeja, "
+                + "bet zmoniu nuotaika pagereja.";
         return new ActionResult(story);
     }
 
