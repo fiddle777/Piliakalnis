@@ -1,21 +1,32 @@
 package Events;
 
-import Core.EventResult;
-import Core.GameEvent;
 import Core.Piliakalnis;
 
-public class Event_Raid_Livonians implements GameEvent {
+public class Event_Raid_Livonians extends BaseRaidEvent {
 
     private static final int START_YEAR = 1202;
     private static final int END_YEAR = 1235;
     private static final int MIN_FAITH = 20;
+
     private static final int DEF_LOW = 20;
     private static final int DEF_MED = 50;
+
+    private static final int HIGH_POP_DIV = 10;
+    private static final int MID_POP_DIV  = 20;
+    private static final int LOW_POP_DIV  = 30;
+
+    private static final int HIGH_FOOD_DIV = 4;
+    private static final int MID_FOOD_DIV  = 6;
+    private static final int LOW_FOOD_DIV  = 8;
+
+    private static final int HIGH_MORALE_LOSS = 10;
+    private static final int MID_MORALE_LOSS  = 6;
+    private static final int LOW_MORALE_LOSS  = 3;
+
     private static final int CHANCE_PERCENT = 6;
 
-    @Override
-    public String getEventText() {
-        return "Kalavijuociu reidas";
+    public Event_Raid_Livonians() {
+        super("Kalavijuociu reidas", CHANCE_PERCENT);
     }
 
     @Override
@@ -25,41 +36,66 @@ public class Event_Raid_Livonians implements GameEvent {
                 && p.getFaith() > MIN_FAITH;
     }
 
-    @Override
-    public EventResult execute(Piliakalnis p) {
-        int popLoss;
-        int foodLoss;
-        int moraleLoss;
-
-        if (p.getDefense() < DEF_LOW) {
-            popLoss = p.getPopulation() / 10;
-            foodLoss = p.getFood() / 4;
-            moraleLoss = 10;
-        } else if (p.getDefense() <= DEF_MED) {
-            popLoss = p.getPopulation() / 20;
-            foodLoss = p.getFood() / 6;
-            moraleLoss = 6;
+    private int getPopLoss(Piliakalnis p) {
+        int defense = p.getDefense();
+        if (defense < DEF_LOW) {
+            return p.getPopulation() / HIGH_POP_DIV;
+        } else if (defense <= DEF_MED) {
+            return p.getPopulation() / MID_POP_DIV;
         } else {
-            popLoss = p.getPopulation() / 30;
-            foodLoss = p.getFood() / 8;
-            moraleLoss = 3;
+            return p.getPopulation() / LOW_POP_DIV;
         }
+    }
 
-        p.setPopulation(Math.max(0, p.getPopulation() - popLoss));
-        p.setFood(Math.max(0, p.getFood() - foodLoss));
-        p.setMorale(Math.max(0, p.getMorale() - moraleLoss));
+    private int getFoodLoss(Piliakalnis p) {
+        int defense = p.getDefense();
+        if (defense < DEF_LOW) {
+            return p.getFood() / HIGH_FOOD_DIV;
+        } else if (defense <= DEF_MED) {
+            return p.getFood() / MID_FOOD_DIV;
+        } else {
+            return p.getFood() / LOW_FOOD_DIV;
+        }
+    }
 
-        String text = "APGULTIS! Kalavijuociu pulkai uzslenka is Livonijos, tikrindami nepavergtu zemiu tvirtuma.\n"
+    private int getMoraleLoss(Piliakalnis p) {
+        int defense = p.getDefense();
+        if (defense < DEF_LOW) {
+            return HIGH_MORALE_LOSS;
+        } else if (defense <= DEF_MED) {
+            return MID_MORALE_LOSS;
+        } else {
+            return LOW_MORALE_LOSS;
+        }
+    }
+
+    @Override
+    protected int calculateGoldLoss(Piliakalnis p) {
+        return 0;
+    }
+
+    @Override
+    protected int calculateFoodLoss(Piliakalnis p) {
+        return getFoodLoss(p);
+    }
+
+    @Override
+    protected int calculateMoraleLoss(Piliakalnis p) {
+        return getMoraleLoss(p);
+    }
+
+    @Override
+    protected int calculatePopulationLoss(Piliakalnis p) {
+        return getPopLoss(p);
+    }
+
+    @Override
+    protected String buildStoryText(int goldLoss, int foodLoss, int moraleLoss, int popLoss) {
+        // goldLoss visada 0 siame reide
+        return "APGULTIS! Kalavijuociu pulkai uzslenka is Livonijos, tikrindami nepavergtu zemiu tvirtuma.\n"
                 + "Kardeliai kieto plieno isbando tvirtoves ir pavaldiniu stipruma.\n"
                 + (popLoss > 0 ? "Zuvo " + popLoss + " zmoniu.\n" : "")
                 + (foodLoss > 0 ? "Sandeliuose prarandama " + foodLoss + " maisto.\n" : "")
                 + (moraleLoss > 0 ? "Bendruomenes morale krenta -" + moraleLoss + ".\n" : "");
-
-        return new EventResult(text);
-    }
-
-    @Override
-    public int getChancePercent() {
-        return CHANCE_PERCENT;
     }
 }

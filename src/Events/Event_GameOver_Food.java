@@ -1,14 +1,11 @@
 package Events;
 
-import Core.EventResult;
-import Core.GameEvent;
 import Core.Piliakalnis;
 
-public class Event_GameOver_Food implements GameEvent {
+public class Event_GameOver_Food extends BaseGameOverEvent {
 
-    @Override
-    public String getEventText() {
-        return "Zlugimas del bado";
+    public Event_GameOver_Food() {
+        super("Zlugimas del bado");
     }
 
     @Override
@@ -17,14 +14,8 @@ public class Event_GameOver_Food implements GameEvent {
     }
 
     @Override
-    public EventResult execute(Piliakalnis p) {
-        String text = "Maisto atsargos visiskai isseko. Likusieji issiskirste arba mire nuo bado.\n" +
+    protected String buildGameOverText(Piliakalnis p) {
+        return "Maisto atsargos visiskai isseko. Likusieji issiskirste arba mire nuo bado.\n" +
                 "Jusu valdymas baigesi.";
-        return new EventResult(text, true);
-    }
-
-    @Override
-    public boolean isRandom() {
-        return false;
     }
 }

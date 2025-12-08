@@ -1,14 +1,13 @@
 package Events;
 
 import Core.EventResult;
-import Core.GameEvent;
 import Core.Piliakalnis;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Event_Flavour_BebruDarba implements GameEvent {
+public class Event_Flavour_BebruDarba extends BaseFlavourEvent {
 
     private static final int MIN_POPULATION = 20;
     private static final int MORALE_LOSS_SMALL = 1;
@@ -17,9 +16,8 @@ public class Event_Flavour_BebruDarba implements GameEvent {
 
     private final Random rnd = new Random();
 
-    @Override
-    public String getEventText() {
-        return "Bebrai nugvelbia statybines medziagas";
+    public Event_Flavour_BebruDarba() {
+        super("Bebrai nugvelbia statybines medziagas", CHANCE_PERCENT);
     }
 
     @Override
@@ -42,7 +40,6 @@ public class Event_Flavour_BebruDarba implements GameEvent {
         }
 
         String target = candidates.get(rnd.nextInt(candidates.size()));
-
         int variant = rnd.nextInt(2);
 
         String affectedName;
@@ -60,7 +57,7 @@ public class Event_Flavour_BebruDarba implements GameEvent {
                 }
             }
             case "altar" -> {
-                affectedName = "aukuro ir sventvietes";
+                affectedName = "sventvietes";
                 if (variant == 0 && p.getAltarLevel() > 0) {
                     p.setAltarLevel(p.getAltarLevel() - 1);
                 }
@@ -75,22 +72,17 @@ public class Event_Flavour_BebruDarba implements GameEvent {
 
         String text;
         if (variant == 0) {
-            p.setMorale(Math.max(0, p.getMorale() - MORALE_LOSS_SMALL));
+            changeMorale(p, -MORALE_LOSS_SMALL);
             text = "Bebru burys pastebejo sukrauta mediena statyboms ir ja issinese.\n" +
                     "Dalies " + affectedName + " darbai visiskai suzlugdomi - viskas turi prasideti is naujo.\n" +
                     "Statybos sustoja, amatininkai burnoja.";
         } else {
-            p.setMorale(Math.max(0, p.getMorale() - MORALE_LOSS_BIG));
+            changeMorale(p, -MORALE_LOSS_BIG);
             text = "Bebru burys pastebejo sukrauta mediena statyboms ir ja issinese.\n" +
                     "Darbininkai visa diena vaikosi zverelius aplink,\n" + affectedName + " statybos veluoja," +
                     "amatininkai burnoja.";
         }
 
         return new EventResult(text);
-    }
-
-    @Override
-    public int getChancePercent() {
-        return CHANCE_PERCENT;
     }
 }

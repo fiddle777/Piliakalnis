@@ -1,60 +1,44 @@
 package Actions;
 
 import Core.ActionResult;
-import Core.GameAction;
 import Core.GameConfig;
 import Core.Piliakalnis;
 
-public class Action_Build_Fort implements GameAction {
+public class Action_Build_Fort extends BaseAction {
 
-    @Override
-    public String getName() {
-        return "Stiprinti gynyba";
-    }
+    private static final int GOLD_COST = 150;
+    private static final int MIN_POPULATION = 30;
+    private static final int MAX_FORT_LEVEL = 3;
+    private static final int DEFENSE_GAIN_PER_LEVEL = 30;
 
-    @Override
-    public String getCategory1() {
-        return "Statyba";
-    }
-
-    @Override
-    public String getCategory2() {
-        return "Gynyba";
+    public Action_Build_Fort() {
+        super(
+                "Stiprinti gynyba",
+                "Statybos",
+                "Gynyba",
+                "Stiprina gynybines sienas ir pakelia bendra piliakalnio gynyba.",
+                "Auksas -" + GOLD_COST,
+                "Auksas ≥ " + GOLD_COST + ", Gyventojai ≥ " + MIN_POPULATION + ", Fortifikaciju lygis < " + MAX_FORT_LEVEL
+        );
     }
 
     @Override
     public boolean isAvailable(Piliakalnis p) {
-        return p.getGold() >= 150
-                && p.getPopulation() >= 30
-                && p.getFortLevel() < 3;
+        return p.getGold() >= GOLD_COST
+                && p.getPopulation() >= MIN_POPULATION
+                && p.getFortLevel() < MAX_FORT_LEVEL;
     }
 
     @Override
     public ActionResult execute(Piliakalnis p) {
-        p.setGold(Math.max(0, p.getGold() - 150));
+        p.setGold(p.getGold() - GOLD_COST);
+        p.setDefense(Math.min(GameConfig.MAX_DEFENSE, p.getDefense() + DEFENSE_GAIN_PER_LEVEL));
         p.setFortLevel(p.getFortLevel() + 1);
 
-        int newDefense = Math.min(GameConfig.MAX_DEFENSE, p.getDefense() + 20);
-        p.setDefense(newDefense);
+        String story = "Skiriate lesu piliakalnio gynybai.\n"
+                + "Sienos sutvirtinamos, pylimai paukstinami, o sargyba sustiprinama.\n"
+                + "Gynyba isauga +" + DEFENSE_GAIN_PER_LEVEL + ".";
 
-        String story = "Jus stiprinate gynybines fortifikacijas aplink piliakalni. "
-                + "Sienos auksteja, tvoros tvirtinamos, "
-                + "gynyba padideja, dabar fortifikaciju lygis: " + p.getFortLevel() + ".";
         return new ActionResult(story);
-    }
-
-    @Override
-    public String getCostDescription() {
-        return "Auksas -150";
-    }
-
-    @Override
-    public String getRequirementDescription() {
-        return "Auksas >= 150, Gyventojai >= 30, Fortifikaciju lygis < 3";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Stiprina gynybines sienas ir pakelia bendro piliakalnio gynyba.";
     }
 }

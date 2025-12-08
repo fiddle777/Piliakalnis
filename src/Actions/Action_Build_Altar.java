@@ -1,58 +1,42 @@
 package Actions;
 
 import Core.ActionResult;
-import Core.GameAction;
 import Core.GameConfig;
 import Core.Piliakalnis;
 
-public class Action_Build_Altar implements GameAction {
+public class Action_Build_Altar extends BaseAction {
 
-    @Override
-    public String getName() {
-        return "Statyti aukura";
-    }
+    private static final int GOLD_COST = 100;
+    private static final int MAX_ALTAR_LEVEL = 3;
+    private static final int MORALE_GAIN = 5;
 
-    @Override
-    public String getCategory1() {
-        return "Statyba";
-    }
-
-    @Override
-    public String getCategory2() {
-        return "Tikejimas";
+    public Action_Build_Altar() {
+        super(
+                "Statyti aukura",
+                "Statyba",
+                "Tikejimas",
+                "Aukuras stiprina tikejima ir pasitikejima jumis, Valdove.",
+                "Auksas -" + GOLD_COST,
+                "Auksas >= " + GOLD_COST + ", Aukuro lygis < " + MAX_ALTAR_LEVEL
+        );
     }
 
     @Override
     public boolean isAvailable(Piliakalnis p) {
-        return p.getAltarLevel() < 3 && p.getGold() >= 100;
+        return p.getAltarLevel() < MAX_ALTAR_LEVEL && p.getGold() >= GOLD_COST;
     }
 
     @Override
     public ActionResult execute(Piliakalnis p) {
-        p.setGold(Math.max(0, p.getGold() - 100));
+        p.setGold(Math.max(0, p.getGold() - GOLD_COST));
         p.setAltarLevel(p.getAltarLevel() + 1);
 
-        int newMorale = Math.min(GameConfig.MAX_MORALE, p.getMorale() + 5);
-        p.setMorale(newMorale);
+        p.setMorale(Math.min(GameConfig.MAX_MORALE, p.getMorale() + MORALE_GAIN));
 
         String story = "Pastatote nauja aukuro pakopa. Zmones dazniau renkasi apeigoms, "
                 + "o tikejimas jumis, Valdove, stipreja. "
                 + "Aukuro lygis: " + p.getAltarLevel() + ".";
+
         return new ActionResult(story);
-    }
-
-    @Override
-    public String getCostDescription() {
-        return "Auksas -100";
-    }
-
-    @Override
-    public String getRequirementDescription() {
-        return "Auksas >= 100, Aukuro lygis < 3";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Aukuras stiprina tikejima ir pasitikejima jumis, Valdove.";
     }
 }

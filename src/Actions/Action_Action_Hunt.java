@@ -1,52 +1,40 @@
 package Actions;
 
 import Core.ActionResult;
-import Core.GameAction;
+import Core.GameConfig;
 import Core.Piliakalnis;
 
-public class Action_Action_Hunt implements GameAction {
+public class Action_Action_Hunt extends BaseAction {
 
-    @Override
-    public String getName() {
-        return "Organizuoti medziokle";
-    }
+    private static final int MIN_POPULATION = 10;
+    private static final int FOOD_GAIN = 25;
+    private static final int MORALE_GAIN = 2;
 
-    @Override
-    public String getCategory1() {
-        return "Veiksmas";
-    }
-
-    @Override
-    public String getCategory2() {
-        return "Maistas";
+    public Action_Action_Hunt() {
+        super(
+                "Medziokle",
+                "Ukis",
+                "Maistas",
+                "Issiunciate medziotojus i miskus papildyti maisto atsargas.",
+                "Nera tiesioginiu islaidu",
+                "Gyventojai ≥ " + MIN_POPULATION
+        );
     }
 
     @Override
     public boolean isAvailable(Piliakalnis p) {
-        return p.getPopulation() >= 10;
+        return p.getPopulation() >= MIN_POPULATION;
     }
 
     @Override
     public ActionResult execute(Piliakalnis p) {
-        int gainedFood = p.getPopulation();
-        p.setFood(p.getFood() + gainedFood);
+        p.setFood(p.getFood() + FOOD_GAIN);
+        p.setMorale(Math.min(GameConfig.MAX_MORALE, p.getMorale() + MORALE_GAIN));
 
-        String story = "Valdovo isakymu gyventojai organizuoja medziokle ir papildo maisto atsargas.";
+        String story = "Medziotojai iszigiuoja i aplinkinius miskus.\n"
+                + "Sugrizta nesini zveriena ir kailiais – maisto atsargos padideja +" + FOOD_GAIN + ".\n"
+                + "Sekminga medziokle pakelia nuotaika (morale +" + MORALE_GAIN + ").";
+
         return new ActionResult(story);
-    }
-
-    @Override
-    public String getCostDescription() {
-        return "Nera tiesioginiu islaidu.";
-    }
-
-    @Override
-    public String getRequirementDescription() {
-        return "Gyventojai >= 10";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Organizuojate medziokle, kad padidintumete maisto atsargas.";
     }
 }

@@ -1,10 +1,8 @@
 package Events;
 
-import Core.EventResult;
-import Core.GameEvent;
 import Core.Piliakalnis;
 
-public class Event_GameOver_MindaugasRandom implements GameEvent {
+public class Event_GameOver_MindaugasRandom extends BaseGameOverEvent {
 
     private static final int YEAR_MIN = 1240;
     private static final int YEAR_MAX = 1250;
@@ -13,9 +11,8 @@ public class Event_GameOver_MindaugasRandom implements GameEvent {
     private static final int DEFENSE_REQ = 40;
     private static final int CHANCE_PERCENT = 5;
 
-    @Override
-    public String getEventText() {
-        return "Mindaugo kvietimas i taryba";
+    public Event_GameOver_MindaugasRandom() {
+        super("Mindaugo kvietimas i taryba");
     }
 
     @Override
@@ -29,11 +26,14 @@ public class Event_GameOver_MindaugasRandom implements GameEvent {
     }
 
     @Override
-    public EventResult execute(Piliakalnis p) {
-        String text =
-                "Atvaziuoja raiteliai ir pranesa: Mindaugas kviecia jus i taryba.\n" +
-                        "Jusu darbai nepastebeti neliko – laikas jungtis prie didziojo vienijimo.\n";
-        return new EventResult(text, true);
+    protected String buildGameOverText(Piliakalnis p) {
+        return "Atvaziuoja raiteliai ir pranesa: Mindaugas kviecia jus i taryba.\n" +
+                "Jusu darbai nepastebeti neliko – laikas jungtis prie didziojo vienijimo.\n";
+    }
+
+    @Override
+    public boolean isRandom() {
+        return true;
     }
 
     @Override

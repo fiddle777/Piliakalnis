@@ -1,10 +1,8 @@
 package Events;
 
-import Core.EventResult;
-import Core.GameEvent;
 import Core.Piliakalnis;
 
-public class Event_Raid_Curonians implements GameEvent {
+public class Event_Raid_Curonians extends BaseRaidEvent {
 
     private static final int MAX_FAITH_FOR_RAID = 15;
     private static final int GOLD_LOSS_DIVISOR = 4;
@@ -12,9 +10,8 @@ public class Event_Raid_Curonians implements GameEvent {
     private static final int POP_LOSS_DIVISOR = 20;
     private static final int CHANCE_PERCENT = 6;
 
-    @Override
-    public String getEventText() {
-        return "Kursiu luotai horizonte";
+    public Event_Raid_Curonians() {
+        super("Kursiu luotai horizonte", CHANCE_PERCENT);
     }
 
     @Override
@@ -23,28 +20,31 @@ public class Event_Raid_Curonians implements GameEvent {
     }
 
     @Override
-    public EventResult execute(Piliakalnis p) {
-        int goldLoss = p.getGold() / GOLD_LOSS_DIVISOR;
-        int moraleLoss = p.getMorale() / MORALE_LOSS_DIVISOR;
-        int popLoss = p.getPopulation() / POP_LOSS_DIVISOR;
-
-        p.setGold(Math.max(0, p.getGold() - goldLoss));
-        p.setMorale(p.getMorale() + moraleLoss);
-        if (p.getMorale() < 0) {
-            p.setMorale(0);
-        }
-        p.setPopulation(Math.max(0, p.getPopulation() - popLoss));
-
-        String text = "Apgultis! Kursiu luotai upe atplaukia!\n"
-                + "Isnesamas grobis - prarandate " + goldLoss + " aukso.\n"
-                + "Prie lauzo sklinda istorijos apie narsias kautynes.\n"
-                + "Morale krenta, -" + moraleLoss + ", zuvo " + popLoss + ".";
-
-        return new EventResult(text);
+    protected int calculateGoldLoss(Piliakalnis p) {
+        return p.getGold() / GOLD_LOSS_DIVISOR;
     }
 
     @Override
-    public int getChancePercent() {
-        return CHANCE_PERCENT;
+    protected int calculateFoodLoss(Piliakalnis p) {
+        // Siame reide maistas nelieciamas
+        return 0;
+    }
+
+    @Override
+    protected int calculateMoraleLoss(Piliakalnis p) {
+        return p.getMorale() / MORALE_LOSS_DIVISOR;
+    }
+
+    @Override
+    protected int calculatePopulationLoss(Piliakalnis p) {
+        return p.getPopulation() / POP_LOSS_DIVISOR;
+    }
+
+    @Override
+    protected String buildStoryText(int goldLoss, int foodLoss, int moraleLoss, int popLoss) {
+        return "Apagultis! Kursiu luotai upe atplaukia!\n"
+                + "Isnesamas grobis - prarandate " + goldLoss + " aukso.\n"
+                + "Prie lauzo sklinda istorijos apie narsias kautynes.\n"
+                + "Morale krenta -" + moraleLoss + ", zuvo " + popLoss + ".";
     }
 }

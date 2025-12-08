@@ -1,11 +1,9 @@
 package Events;
 
 import Core.EventResult;
-import Core.GameConfig;
-import Core.GameEvent;
 import Core.Piliakalnis;
 
-public class Event_Flavour_Missionaries implements GameEvent {
+public class Event_Flavour_Missionaries extends BaseFlavourEvent {
 
     private static final int YEAR_THRESHOLD = 1220;
     private static final int HIGH_FAITH_THRESHOLD = 20;
@@ -23,9 +21,8 @@ public class Event_Flavour_Missionaries implements GameEvent {
 
     private static final int CHANCE_PERCENT = 6;
 
-    @Override
-    public String getEventText() {
-        return "Ateiviai pranasai is vakaru zemiu";
+    public Event_Flavour_Missionaries() {
+        super("Ateiviai pranasai is vakaru zemiu", CHANCE_PERCENT);
     }
 
     @Override
@@ -39,15 +36,8 @@ public class Event_Flavour_Missionaries implements GameEvent {
 
         // HIGH FAITH (> 20)
         if (p.getFaith() > HIGH_FAITH_THRESHOLD) {
-            p.setFaith(p.getFaith() + HIGH_FAITH_GAIN);
-            if (p.getFaith() > GameConfig.MAX_FAITH) {
-                p.setFaith(GameConfig.MAX_FAITH);
-            }
-
-            p.setMorale(p.getMorale() + HIGH_MORALE_GAIN);
-            if (p.getMorale() > GameConfig.MAX_MORALE) {
-                p.setMorale(GameConfig.MAX_MORALE);
-            }
+            changeFaith(p, HIGH_FAITH_GAIN);
+            changeMorale(p, HIGH_MORALE_GAIN);
 
             text = "Sventasis Brunonas, vadinamas Bonifacijumi, arkivyskupas ir vienuolis, \n" +
                     "vienuoliktais savo atsivertimo metais Rusios ir Lietuvos pasienyje \n" +
@@ -57,13 +47,9 @@ public class Event_Flavour_Missionaries implements GameEvent {
             // LOW FAITH (< 10)
         } else if (p.getFaith() < LOW_FAITH_THRESHOLD) {
 
-            p.setFaith(p.getFaith() - LOW_FAITH_LOSS);
-            if (p.getFaith() < 0) p.setFaith(0);
-
-            p.setMorale(p.getMorale() - LOW_MORALE_LOSS);
-            if (p.getMorale() < 0) p.setMorale(0);
-
-            p.setGold(p.getGold() + LOW_GOLD_GAIN);
+            changeFaith(p, -LOW_FAITH_LOSS);
+            changeMorale(p, -LOW_MORALE_LOSS);
+            changeGold(p, LOW_GOLD_GAIN);
 
             text = "Pranasai is vakarietisku zemiu ateina skelbti keistu ziniu. \n" +
                     "Svietejai dalina dovanas ir Rigos mieste nukaltus sidabrinius tiems, kurie kriksta priimsia\n" +
@@ -73,10 +59,8 @@ public class Event_Flavour_Missionaries implements GameEvent {
             // MIDDLE FAITH (10–20)
         } else {
 
-            p.setGold(p.getGold() + MID_GOLD_GAIN);
-
-            p.setMorale(p.getMorale() - MID_MORALE_LOSS);
-            if (p.getMorale() < 0) p.setMorale(0);
+            changeGold(p, MID_GOLD_GAIN);
+            changeMorale(p, -MID_MORALE_LOSS);
 
             text = "Pranasai is vakarietisku zemiu ateina skelbti keistu ziniu. \n" +
                     "Vieni klausosi su idomumu, kiti raukosi, treti ziuri i dovanas ir mandrus audeklus. \n" +
@@ -86,10 +70,5 @@ public class Event_Flavour_Missionaries implements GameEvent {
         }
 
         return new EventResult(text);
-    }
-
-    @Override
-    public int getChancePercent() {
-        return CHANCE_PERCENT;
     }
 }

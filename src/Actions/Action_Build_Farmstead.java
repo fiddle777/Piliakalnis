@@ -1,56 +1,41 @@
 package Actions;
 
 import Core.ActionResult;
-import Core.GameAction;
 import Core.Piliakalnis;
 
-public class Action_Build_Farmstead implements GameAction {
+public class Action_Build_Farmstead extends BaseAction {
 
-    @Override
-    public String getName() {
-        return "Plesti uki";
-    }
+    private static final int GOLD_COST = 120;
+    private static final int MIN_POPULATION = 5;
+    private static final int MAX_FARM_LEVEL = 3;
 
-    @Override
-    public String getCategory1() {
-        return "Statyba";
-    }
-
-    @Override
-    public String getCategory2() {
-        return "Maistas";
+    public Action_Build_Farmstead() {
+        super(
+                "Plesti uki",
+                "Statyba",
+                "Maistas",
+                "Plecia ukio strukturas, padidina maisto atsargas.",
+                "Auksas -" + GOLD_COST,
+                "Auksas >= " + GOLD_COST + ", Gyventojai >= " + MIN_POPULATION + ", Ukio lygis < " + MAX_FARM_LEVEL
+        );
     }
 
     @Override
     public boolean isAvailable(Piliakalnis p) {
-        return p.getFarmLevel() < 3
-                && p.getGold() >= 120
-                && p.getPopulation() >= 5;
+        return p.getFarmLevel() < MAX_FARM_LEVEL
+                && p.getGold() >= GOLD_COST
+                && p.getPopulation() >= MIN_POPULATION;
     }
 
     @Override
     public ActionResult execute(Piliakalnis p) {
-        p.setGold(Math.max(0, p.getGold() - 120));
+        p.setGold(Math.max(0, p.getGold() - GOLD_COST));
         p.setFarmLevel(p.getFarmLevel() + 1);
 
         String story = "Pleciate ukio strukturas ir paskirstote zemes. "
                 + "Ilgainiui maisto atsargos augs sparciau. "
                 + "Ukio lygis: " + p.getFarmLevel() + ".";
+
         return new ActionResult(story);
-    }
-
-    @Override
-    public String getCostDescription() {
-        return "Auksas -120";
-    }
-
-    @Override
-    public String getRequirementDescription() {
-        return "Auksas >= 120, Gyventojai >= 5, Ukio lygis < 3";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Plecia ukio strukturas, padidina maisto atsargas.";
     }
 }

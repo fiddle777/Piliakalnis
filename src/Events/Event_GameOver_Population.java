@@ -1,14 +1,11 @@
 package Events;
 
-import Core.EventResult;
-import Core.GameEvent;
 import Core.Piliakalnis;
 
-public class Event_GameOver_Population implements GameEvent {
+public class Event_GameOver_Population extends BaseGameOverEvent {
 
-    @Override
-    public String getEventText() {
-        return "Piliakalnis tuscias";
+    public Event_GameOver_Population() {
+        super("Piliakalnis tuscias");
     }
 
     @Override
@@ -17,14 +14,8 @@ public class Event_GameOver_Population implements GameEvent {
     }
 
     @Override
-    public EventResult execute(Piliakalnis p) {
-        String text = "Piliakalnyje neliko zmoniu. Nera kam prisiminti jusu vardo.\n" +
+    protected String buildGameOverText(Piliakalnis p) {
+        return "Piliakalnyje neliko zmoniu. Nera kam prisiminti jusu vardo.\n" +
                 "Jusu valdymas baigesi.";
-        return new EventResult(text, true);
-    }
-
-    @Override
-    public boolean isRandom() {
-        return false;
     }
 }

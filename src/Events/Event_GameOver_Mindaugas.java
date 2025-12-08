@@ -1,31 +1,24 @@
 package Events;
 
-import Core.EventResult;
-import Core.GameEvent;
 import Core.Piliakalnis;
 
-public class Event_GameOver_Mindaugas implements GameEvent {
+public class Event_GameOver_Mindaugas extends BaseGameOverEvent {
 
-    @Override
-    public String getEventText() {
-        return "Mindaugas pakrikstytas karaliumi";
+    private static final int TARGET_YEAR = 1251;
+
+    public Event_GameOver_Mindaugas() {
+        super("Mindaugas pakrikstytas karaliumi");
     }
 
     @Override
     public boolean canTrigger(Piliakalnis p) {
-        return p.getYear() == 1251;
+        return p.getYear() == TARGET_YEAR;
     }
 
     @Override
-    public EventResult execute(Piliakalnis p) {
-        String text = "1251 metais Mindaugas pakrikstomas ir pripazistamas karaliumi.\n" +
+    protected String buildGameOverText(Piliakalnis p) {
+        return "1251 metais Mindaugas pakrikstomas ir pripazistamas karaliumi.\n" +
                 "Jusu piliakalnis issilaike sunkius metus ir prisidejo prie zemiu stiprejimo.\n" +
                 "Jusu vardas bus minimas salia kitu valdovu.";
-        return new EventResult(text, true);
-    }
-
-    @Override
-    public boolean isRandom() {
-        return false;
     }
 }

@@ -1,12 +1,11 @@
 package Events;
 
 import Core.EventResult;
-import Core.GameEvent;
 import Core.Piliakalnis;
 
 import java.util.Random;
 
-public class Event_Flavour_Drunkards implements GameEvent {
+public class Event_Flavour_Drunkards extends BaseFlavourEvent {
 
     private static final int MIN_POPULATION = 16;
     private static final int MIN_GOLD = 10;
@@ -18,9 +17,8 @@ public class Event_Flavour_Drunkards implements GameEvent {
 
     private final Random rnd = new Random();
 
-    @Override
-    public String getEventText() {
-        return "Girti pagonys siaucia";
+    public Event_Flavour_Drunkards() {
+        super("Girti pagonys siaucia", CHANCE_PERCENT);
     }
 
     @Override
@@ -30,29 +28,11 @@ public class Event_Flavour_Drunkards implements GameEvent {
 
     @Override
     public EventResult execute(Piliakalnis p) {
-        int moraleLoss;
-        if (rnd.nextBoolean()) {
-            moraleLoss = SMALL_MORALE_LOSS;
-        } else {
-            moraleLoss = BIG_MORALE_LOSS;
-        }
+        int moraleLoss = rnd.nextBoolean() ? SMALL_MORALE_LOSS : BIG_MORALE_LOSS;
+        int goldLoss = rnd.nextBoolean() ? SMALL_GOLD_LOSS : BIG_GOLD_LOSS;
 
-        int goldLoss;
-        if (rnd.nextBoolean()) {
-            goldLoss = SMALL_GOLD_LOSS;
-        } else {
-            goldLoss = BIG_GOLD_LOSS;
-        }
-
-        p.setMorale(p.getMorale() - moraleLoss);
-        if (p.getMorale() < 0) {
-            p.setMorale(0);
-        }
-
-        p.setGold(p.getGold() - goldLoss);
-        if (p.getGold() < 0) {
-            p.setGold(0);
-        }
+        changeMorale(p, -moraleLoss);
+        changeGold(p, -goldLoss);
 
         String text = "Po ilgos puotos keli uzsivele pagonys nusprende padegti lauko tualetus,\n" +
                 "protestuodami pries per dideli tvarkos kieki. Kvapas ir kaimas abudu kencia.\n" +
@@ -60,10 +40,5 @@ public class Event_Flavour_Drunkards implements GameEvent {
                 "sumenkina morale (-" + moraleLoss + ").";
 
         return new EventResult(text);
-    }
-
-    @Override
-    public int getChancePercent() {
-        return CHANCE_PERCENT;
     }
 }

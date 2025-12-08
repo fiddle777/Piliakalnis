@@ -1,10 +1,8 @@
 package Events;
 
-import Core.EventResult;
-import Core.GameEvent;
 import Core.Piliakalnis;
 
-public class Event_Raid_Looters implements GameEvent {
+public class Event_Raid_Looters extends BaseRaidEvent {
 
     private static final int MAX_DEFENSE_FOR_RAID = 20;
     private static final int GOLD_LOSS_DIVISOR = 10;
@@ -12,9 +10,8 @@ public class Event_Raid_Looters implements GameEvent {
     private static final int MORALE_LOSS = 4;
     private static final int CHANCE_PERCENT = 10;
 
-    @Override
-    public String getEventText() {
-        return "Plesiku ispuolis turgavieteje";
+    public Event_Raid_Looters() {
+        super("Plesiku ispuolis turgavieteje", CHANCE_PERCENT);
     }
 
     @Override
@@ -24,23 +21,29 @@ public class Event_Raid_Looters implements GameEvent {
     }
 
     @Override
-    public EventResult execute(Piliakalnis p) {
-        int goldLoss = p.getGold() / GOLD_LOSS_DIVISOR;
-        int foodLoss = p.getFood() / FOOD_LOSS_DIVISOR;
-
-        p.setGold(Math.max(0, p.getGold() - goldLoss));
-        p.setFood(Math.max(0, p.getFood() - foodLoss));
-        p.setMorale(Math.max(0, p.getMorale() - MORALE_LOSS));
-
-        String text = "Plesikai nakti isibrauna i turgaviete.\n"
-                + "Sandeliuose dingsta " + goldLoss + " aukso ir " + foodLoss + " maisto.\n"
-                + "Zmones nepatenkinti, morale krenta -" + MORALE_LOSS + ".";
-
-        return new EventResult(text);
+    protected int calculateGoldLoss(Piliakalnis p) {
+        return p.getGold() / GOLD_LOSS_DIVISOR;
     }
 
     @Override
-    public int getChancePercent() {
-        return CHANCE_PERCENT;
+    protected int calculateFoodLoss(Piliakalnis p) {
+        return p.getFood() / FOOD_LOSS_DIVISOR;
+    }
+
+    @Override
+    protected int calculateMoraleLoss(Piliakalnis p) {
+        return MORALE_LOSS;
+    }
+
+    @Override
+    protected int calculatePopulationLoss(Piliakalnis p) {
+        return 0;
+    }
+
+    @Override
+    protected String buildStoryText(int goldLoss, int foodLoss, int moraleLoss, int popLoss) {
+        return "Plesikai nakti isibrauna i turgaviete.\n"
+                + "Sandeliuose dingsta " + goldLoss + " aukso ir " + foodLoss + " maisto.\n"
+                + "Zmones nepatenkinti, morale krenta -" + moraleLoss + ".";
     }
 }
