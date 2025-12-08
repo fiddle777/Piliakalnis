@@ -1,6 +1,5 @@
 package Events;
 
-import Core.EventResult;
 import Core.Piliakalnis;
 
 public class Event_Notification_Defense extends BaseNotificationEvent {

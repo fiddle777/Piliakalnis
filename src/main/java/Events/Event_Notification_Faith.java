@@ -1,6 +1,5 @@
 package Events;
 
-import Core.EventResult;
 import Core.GameConfig;
 import Core.Piliakalnis;
 
