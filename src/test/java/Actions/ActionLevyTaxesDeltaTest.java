@@ -1,5 +1,6 @@
 package Actions;
 
+import Actions.Action.LevyTaxes;
 import Core.Piliakalnis;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +16,7 @@ class ActionLevyTaxesDeltaTest {
         int moraleBefore = p.getMorale();
         int foodBefore = p.getFood();
 
-        Action_Action_LevyTaxes action = new Action_Action_LevyTaxes();
+        LevyTaxes action = new LevyTaxes();
         action.execute(p);
 
         assertNotEquals(goldBefore, p.getGold(), "LevyTaxes must change gold.");

@@ -1,5 +1,6 @@
 package Actions;
 
+import Actions.Action.HoldFeast;
 import Core.GameConfig;
 import Core.Piliakalnis;
 import org.junit.jupiter.api.Test;
@@ -11,7 +12,7 @@ class ActionHoldFeastMoraleCapTest {
     @Test
     void holdFeast_doesNotExceedMaxMorale() {
         Piliakalnis p = Piliakalnis.createInitPiliakalnis();
-        Action_Action_HoldFeast feast = new Action_Action_HoldFeast();
+        HoldFeast feast = new HoldFeast();
 
         p.setFood(999);
         p.setMorale(GameConfig.MAX_MORALE - 2);

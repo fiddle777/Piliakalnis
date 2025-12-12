@@ -1,8 +1,8 @@
 package Events;
 
-import Core.EventResult;
+import Core.Results.EventResult;
 import Core.GameConfig;
-import Core.GameEvent;
+import Core.Engine.GameEvent;
 import Core.Piliakalnis;
 
 public class Event_EOT_BaseChanges implements GameEvent {

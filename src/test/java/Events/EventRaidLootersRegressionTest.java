@@ -1,6 +1,7 @@
 package Events;
 
 import Core.Piliakalnis;
+import Events.Raid.RaidLooters;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,7 +23,7 @@ class EventRaidLootersRegressionTest {
         int moraleBefore = p.getMorale();
         int popBefore = p.getPopulation();
 
-        Event_Raid_Looters raid = new Event_Raid_Looters();
+        RaidLooters raid = new RaidLooters();
         assertTrue(raid.canTrigger(p), "Raid should be eligible under low defense and nonzero resources.");
 
         raid.execute(p);

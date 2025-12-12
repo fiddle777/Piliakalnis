@@ -1,6 +1,7 @@
 package Events;
 
 import Core.Piliakalnis;
+import Events.Raid.RaidLooters;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -10,7 +11,7 @@ class EventRaidLootersCanTriggerBoundaryTest {
     @Test
     void raidLooters_canTriggerBoundary_defenseBelowTriggers_defenseAtThresholdDoesNot() {
         Piliakalnis p = Piliakalnis.createInitPiliakalnis();
-        Event_Raid_Looters raid = new Event_Raid_Looters();
+        RaidLooters raid = new RaidLooters();
 
         // Needs (gold > 0 OR food > 0)
         p.setGold(1);

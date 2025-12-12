@@ -1,7 +1,7 @@
 package Actions;
 
-import Core.ActionResult;
-import Core.GameAction;
+import Core.Results.ActionResult;
+import Core.Engine.GameAction;
 import Core.Piliakalnis;
 
 public abstract class BaseAction implements GameAction {
