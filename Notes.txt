@@ -1,0 +1,35 @@
+			U2
+		T1, OOP concepts
+	Inheritance
+Inheritance chains for events and actions(interface; implemented by base; extended by action)
+	Encapsulation
+Private fields controlled by public getters and setters
+	Polymorphism
+Actions and events: gameController knows not what they contain, only calls them
+	Abstraction
+GameAction & GameEvent
+		T2, Clean code
+	Class and method length
+Done
+	DRY
+removed clamps from actions and events, now done in Piliakalnis
+	Magic numbers
+Replaced by private static finals
+	KISS
+EventManager filled with helpers for example
+		T3, Design patterns
+	Creational pattern
+Factory pattern applied
+	Behavioural pattern
+GameController+GameAction.execute() -- INVOKERS
+Piliakalnis -- RECEIVER
+GameAction -- COMMAND
+		T4 Unit tests
+	Tests cover:
+State changes (morale, gold, food, population)
+Boundary conditions (caps, minimums)
+Event triggering conditions
+Regression checks
+	Framework
+Uses JUnit 5
+Tests are deterministic and focused on core logic.
