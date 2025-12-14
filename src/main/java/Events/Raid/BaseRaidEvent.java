@@ -36,10 +36,10 @@ public abstract class BaseRaidEvent implements GameEvent {
         int moraleLoss = Math.max(0, calculateMoraleLoss(p));
         int popLoss = Math.max(0, calculatePopulationLoss(p));
 
-        p.setGold(Math.max(0, p.getGold() - goldLoss));
-        p.setFood(Math.max(0, p.getFood() - foodLoss));
-        p.setMorale(Math.max(0, p.getMorale() - moraleLoss));
-        p.setPopulation(Math.max(0, p.getPopulation() - popLoss));
+        p.setGold(p.getGold() - goldLoss);
+        p.setFood(p.getFood() - foodLoss);
+        p.setMorale(p.getMorale() - moraleLoss);
+        p.setPopulation(p.getPopulation() - popLoss);
 
         String story = buildStoryText(goldLoss, foodLoss, moraleLoss, popLoss);
         return new EventResult(story);

@@ -33,7 +33,7 @@ public class BuildFort extends BaseAction {
     @Override
     public ActionResult execute(Piliakalnis p) {
         p.setGold(p.getGold() - GOLD_COST);
-        p.setDefense(Math.min(GameConfig.MAX_DEFENSE, p.getDefense() + DEFENSE_GAIN_PER_LEVEL));
+        p.setDefense(p.getDefense() + DEFENSE_GAIN_PER_LEVEL);
         p.setFortLevel(p.getFortLevel() + 1);
 
         String story = "Skiriate lesu piliakalnio gynybai.\n"

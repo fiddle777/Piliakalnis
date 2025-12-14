@@ -30,14 +30,12 @@ public class NotificationGold extends BaseNotificationEvent {
 
     @Override
     protected void applyLowEffect(Piliakalnis p) {
-        int newMorale = Math.max(0, p.getMorale() - MORALE_LOSS);
-        p.setMorale(newMorale);
+        p.setMorale(p.getMorale() - MORALE_LOSS);
     }
 
     @Override
     protected void applyHighEffect(Piliakalnis p) {
-        int newMorale = Math.min(GameConfig.MAX_MORALE, p.getMorale() + MORALE_GAIN);
-        p.setMorale(newMorale);
+        p.setMorale(p.getMorale() + MORALE_GAIN);
     }
 
     @Override

@@ -31,9 +31,7 @@ public class LevyTaxes extends BaseAction {
     public ActionResult execute(Piliakalnis p) {
         p.setGold(p.getGold() + GOLD_GAIN);
 
-        int newMorale = Math.max(0, p.getMorale() - MORALE_LOSS);
-        newMorale = Math.min(GameConfig.MAX_MORALE, newMorale);
-        p.setMorale(newMorale);
+        p.setMorale(p.getMorale() - MORALE_LOSS);
 
         String story = "Paskelbiate metinius mokescius. Izdas pasipildo, "
                 + "bet pavaldiniu morale krenta.";

@@ -36,34 +36,22 @@ public abstract class BaseFlavourEvent implements GameEvent {
     public abstract EventResult execute(Piliakalnis p);
 
     protected void changeMorale(Piliakalnis p, int delta) {
-        int value = p.getMorale() + delta;
-        if (value < 0) value = 0;
-        if (value > GameConfig.MAX_MORALE) value = GameConfig.MAX_MORALE;
-        p.setMorale(value);
+        p.setMorale(p.getMorale() + delta);
     }
 
     protected void changeFaith(Piliakalnis p, int delta) {
-        int value = p.getFaith() + delta;
-        if (value < 0) value = 0;
-        if (value > GameConfig.MAX_FAITH) value = GameConfig.MAX_FAITH;
-        p.setFaith(value);
+        p.setFaith(p.getFaith() + delta);
     }
 
     protected void changeGold(Piliakalnis p, int delta) {
-        int value = p.getGold() + delta;
-        if (value < 0) value = 0;
-        p.setGold(value);
+        p.setGold(p.getGold() + delta);
     }
 
     protected void changeFood(Piliakalnis p, int delta) {
-        int value = p.getFood() + delta;
-        if (value < 0) value = 0;
-        p.setFood(value);
+        p.setFood(p.getFood() + delta);
     }
 
     protected void changeDefense(Piliakalnis p, int delta) {
-        int value = p.getDefense() + delta;
-        if (value < 0) value = 0;
-        p.setDefense(value);
+        p.setDefense(p.getDefense() + delta);
     }
 }

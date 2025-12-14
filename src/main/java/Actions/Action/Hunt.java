@@ -30,7 +30,7 @@ public class Hunt extends BaseAction {
     @Override
     public ActionResult execute(Piliakalnis p) {
         p.setFood(p.getFood() + FOOD_GAIN);
-        p.setMorale(Math.min(GameConfig.MAX_MORALE, p.getMorale() + MORALE_GAIN));
+        p.setMorale(p.getMorale() + MORALE_GAIN);
 
         String story = "Medziotojai iszigiuoja i aplinkinius miskus.\n"
                 + "Sugrizta nesini zveriena ir kailiais – maisto atsargos padideja +" + FOOD_GAIN + ".\n"

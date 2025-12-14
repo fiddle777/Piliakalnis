@@ -31,17 +31,11 @@ public class NotificationDefense extends BaseNotificationEvent {
     @Override
     protected void applyLowEffect(Piliakalnis p) {
         p.setMorale(p.getMorale() - LOW_DEFENSE_MORALE_LOSS);
-        if (p.getMorale() < 0) {
-            p.setMorale(0);
-        }
     }
 
     @Override
     protected void applyHighEffect(Piliakalnis p) {
         p.setMorale(p.getMorale() + HIGH_DEFENSE_MORALE_GAIN);
-        if (p.getMorale() > 100) {
-            p.setMorale(100);
-        }
     }
 
     @Override

@@ -28,8 +28,8 @@ public class PerformRitual extends BaseAction {
 
     @Override
     public ActionResult execute(Piliakalnis p) {
-        p.setFood(Math.max(0, p.getFood() - FOOD_COST));
-        p.setFaith(Math.min(GameConfig.MAX_FAITH, p.getFaith() + FAITH_GAIN));
+        p.setFood(p.getFood() - FOOD_COST);
+        p.setFaith(p.getFaith() + FAITH_GAIN);
 
         String story = "Aukure aukojate maista ir atliekate rituala. "
                 + "Zmoniu tikejimas ir dievu palankumo jausmas sustipreja.";

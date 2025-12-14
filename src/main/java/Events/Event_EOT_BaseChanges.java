@@ -38,26 +38,6 @@ public class Event_EOT_BaseChanges implements GameEvent {
         int faithDelta = p.getAltarLevel() - 1;
         p.setFaith(p.getFaith() + faithDelta);
 
-        // clamps
-        if (p.getFood() < 0) {
-            p.setFood(0);
-        }
-        if (p.getGold() < 0) {
-            p.setGold(0);
-        }
-        if (p.getMorale() < 0) {
-            p.setMorale(0);
-        }
-        if (p.getMorale() > GameConfig.MAX_MORALE) {
-            p.setMorale(GameConfig.MAX_MORALE);
-        }
-        if (p.getFaith() < 0) {
-            p.setFaith(0);
-        }
-        if (p.getFaith() > GameConfig.MAX_FAITH) {
-            p.setFaith(GameConfig.MAX_FAITH);
-        }
-
         String story = "Metai " + p.getYear() + "AD baigiasi. Pavaldiniai maitinasi, prekiauja, gyvena...";
         return new EventResult(story);
     }

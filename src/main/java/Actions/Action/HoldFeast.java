@@ -28,8 +28,8 @@ public class HoldFeast extends BaseAction {
 
     @Override
     public ActionResult execute(Piliakalnis p) {
-        p.setFood(Math.max(0, p.getFood() - FOOD_COST));
-        p.setMorale(Math.min(GameConfig.MAX_MORALE, p.getMorale() + MORALE_GAIN));
+        p.setFood(p.getFood() - FOOD_COST);
+        p.setMorale(p.getMorale() + MORALE_GAIN);
 
         String story =
                 "Surengiate puota savo valstieciams. Maisto atsargos sumazeja, "

@@ -29,10 +29,10 @@ public class BuildAltar extends BaseAction {
 
     @Override
     public ActionResult execute(Piliakalnis p) {
-        p.setGold(Math.max(0, p.getGold() - GOLD_COST));
+        p.setGold(p.getGold() - GOLD_COST);
         p.setAltarLevel(p.getAltarLevel() + 1);
 
-        p.setMorale(Math.min(GameConfig.MAX_MORALE, p.getMorale() + MORALE_GAIN));
+        p.setMorale(p.getMorale() + MORALE_GAIN);
 
         String story = "Pastatote nauja aukuro pakopa. Zmones dazniau renkasi apeigoms, "
                 + "o tikejimas jumis, Valdove, stipreja. "

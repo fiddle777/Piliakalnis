@@ -30,7 +30,7 @@ public class BuildFarmstead extends BaseAction {
 
     @Override
     public ActionResult execute(Piliakalnis p) {
-        p.setGold(Math.max(0, p.getGold() - GOLD_COST));
+        p.setGold(p.getGold() - GOLD_COST);
         p.setFarmLevel(p.getFarmLevel() + 1);
 
         String story = "Pleciate ukio strukturas ir paskirstote zemes. "

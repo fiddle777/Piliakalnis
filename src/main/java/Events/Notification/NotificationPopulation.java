@@ -31,14 +31,12 @@ public class NotificationPopulation extends BaseNotificationEvent {
 
     @Override
     protected void applyLowEffect(Piliakalnis p) {
-        int newMorale = Math.max(0, p.getMorale() - MORALE_PENALTY);
-        p.setMorale(newMorale);
+        p.setMorale(p.getMorale() - MORALE_PENALTY);
     }
 
     @Override
     protected void applyHighEffect(Piliakalnis p) {
-        int newMorale = Math.min(GameConfig.MAX_MORALE, p.getMorale() + MORALE_BONUS);
-        p.setMorale(newMorale);
+        p.setMorale(p.getMorale() + MORALE_BONUS);
     }
 
     @Override

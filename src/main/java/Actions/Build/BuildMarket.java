@@ -27,7 +27,7 @@ public class BuildMarket extends BaseAction {
 
     @Override
     public ActionResult execute(Piliakalnis p) {
-        p.setGold(Math.max(0, p.getGold() - GOLD_COST));
+        p.setGold(p.getGold() - GOLD_COST);
         p.setMarketLevel(p.getMarketLevel() + 1);
 
         String story = "Jus pleciate turgu ir pritraukiate daugiau pirkiu ir pirklio karavanu. "

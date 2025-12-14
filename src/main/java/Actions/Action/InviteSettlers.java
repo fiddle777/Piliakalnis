@@ -27,7 +27,7 @@ public class InviteSettlers extends BaseAction {
 
     @Override
     public ActionResult execute(Piliakalnis p) {
-        p.setGold(Math.max(0, p.getGold() - GOLD_COST));
+        p.setGold(p.getGold() - GOLD_COST);
         p.setPopulation(p.getPopulation() + POPULATION_GAIN);
 
         String story = "Isleidziate auksa, kad pritrauktumete naujakuriu. "
