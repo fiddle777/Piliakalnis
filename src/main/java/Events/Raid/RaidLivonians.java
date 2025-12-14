@@ -91,7 +91,6 @@ public class RaidLivonians extends BaseRaidEvent {
 
     @Override
     protected String buildStoryText(int goldLoss, int foodLoss, int moraleLoss, int popLoss) {
-        // goldLoss visada 0 siame reide
         return "APGULTIS! Kalavijuociu pulkai uzslenka is Livonijos, tikrindami nepavergtu zemiu tvirtuma.\n"
                 + "Kardeliai kieto plieno isbando tvirtoves ir pavaldiniu stipruma.\n"
                 + (popLoss > 0 ? "Zuvo " + popLoss + " zmoniu.\n" : "")

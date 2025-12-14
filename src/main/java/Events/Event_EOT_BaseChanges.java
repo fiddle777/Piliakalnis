@@ -24,14 +24,14 @@ public class Event_EOT_BaseChanges implements GameEvent {
         p.setYearsOfRule(p.getYearsOfRule() + 1);
 
         // food
-        int foodConsumption = p.getPopulation() / 2;
-        int foodProduction = p.getFarmLevel() * (10 + p.getPopulation() / 10);
+        int foodConsumption = p.getPopulation() / GameConfig.FOOD_CONSUMPTION_DIV;
+        int foodProduction = p.getFarmLevel() * (GameConfig.FARM_BASE_PRODUCTION + p.getPopulation() / GameConfig.POPULATION_FARM_BONUS_DIV);
         p.setFood(p.getFood() + foodProduction - foodConsumption);
 
         // gold
-        int goldUpkeep = p.getPopulation() / 10;
-        int marketIncome = p.getMarketLevel() * 12;
-        int baseIncome = 10;
+        int goldUpkeep = p.getPopulation() / GameConfig.GOLD_UPKEEP_DIV;
+        int marketIncome = p.getMarketLevel() * GameConfig.MARKET_INCOME_PER_LEVEL;
+        int baseIncome = GameConfig.BASE_INCOME;
         p.setGold(p.getGold() + baseIncome + marketIncome - goldUpkeep);
 
         // faith

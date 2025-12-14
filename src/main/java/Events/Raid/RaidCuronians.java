@@ -26,7 +26,6 @@ public class RaidCuronians extends BaseRaidEvent {
 
     @Override
     protected int calculateFoodLoss(Piliakalnis p) {
-        // Siame reide maistas nelieciamas
         return 0;
     }
 

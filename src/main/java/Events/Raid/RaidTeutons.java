@@ -5,12 +5,14 @@ import Core.Piliakalnis;
 import java.util.Random;
 
 public class RaidTeutons extends BaseRaidEvent {
-
     private static final int MIN_YEAR = 1230;
     private static final int MIN_FAITH = 20;
     private static final int MORALE_LOSS = 6;
     private static final int FOOD_LOSS_DIVISOR = 10;
     private static final int CHANCE_PERCENT = 8;
+    private static final int BASE_GOLD_LOSS_MIN = 5;
+    private static final int BASE_GOLD_LOSS_RANGE = 10;
+
 
     private final Random rnd = new Random();
 
@@ -42,7 +44,7 @@ public class RaidTeutons extends BaseRaidEvent {
 
     @Override
     protected int calculatePopulationLoss(Piliakalnis p) {
-        int base = 5 + rnd.nextInt(10); // [5; 14]
+        int base = BASE_GOLD_LOSS_MIN + rnd.nextInt(BASE_GOLD_LOSS_RANGE); // [5; 14]
         return p.getPopulation() / base;
     }
 

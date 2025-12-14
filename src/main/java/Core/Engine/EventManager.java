@@ -19,9 +19,9 @@ import java.util.List;
 import java.util.Random;
 
 public class EventManager {
-
     private final List<GameEvent> allEvents = new ArrayList<>();
     private final Random rnd = new Random();
+    private static final int PERCENT_MAX = 100;
 
     public EventManager() {
         EventFactory factory = new EventFactory();
@@ -77,10 +77,10 @@ public class EventManager {
         for (GameEvent ge : candidates) {
             int chance = ge.getChancePercent();
 
-            if (chance >= 100) {
+            if (chance >= PERCENT_MAX) {
                 eligible.add(ge);
             } else if (chance > 0) {
-                int roll = rnd.nextInt(100) + 1; // 1–100
+                int roll = rnd.nextInt(PERCENT_MAX) + 1; // 1–100
                 if (roll <= chance) {
                     eligible.add(ge);
                 }

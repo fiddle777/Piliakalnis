@@ -8,11 +8,12 @@ import java.util.List;
 import java.util.Random;
 
 public class FlavourBebruDarba extends BaseFlavourEvent {
-
     private static final int MIN_POPULATION = 20;
     private static final int MORALE_LOSS_SMALL = 1;
     private static final int MORALE_LOSS_BIG = 5;
     private static final int CHANCE_PERCENT = 20;
+    private static final int VARIANT_COUNT = 2;
+
 
     private final Random rnd = new Random();
 
@@ -40,7 +41,7 @@ public class FlavourBebruDarba extends BaseFlavourEvent {
         }
 
         String target = candidates.get(rnd.nextInt(candidates.size()));
-        int variant = rnd.nextInt(2);
+        int variant = rnd.nextInt(VARIANT_COUNT);
 
         String affectedName;
         switch (target) {
