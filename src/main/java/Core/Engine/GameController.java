@@ -17,23 +17,14 @@ import java.util.Scanner;
 public class GameController {
     private final Piliakalnis piliakalnis;
     private final Scanner scanner = new Scanner(System.in);
-    private final List<GameAction> allActions = List.of(
-            new Hunt(),
-            new HoldFeast(),
-            new InviteSettlers(),
-            new LevyTaxes(),
-            new PerformRitual(),
-            new BuildFort(),
-            new BuildFarmstead(),
-            new BuildAltar(),
-            new BuildMarket()
-    );
+    private final List<GameAction> allActions;
     private final EventManager eventManager = new EventManager();
     private final List<String> storyLog = new ArrayList<>();
     private final ConsoleUI ui = new ConsoleUI();
 
     public GameController(Piliakalnis piliakalnis) {
         this.piliakalnis = piliakalnis;
+        this.allActions = new ActionFactory().createDefaultActions();
     }
 
     public void startGame() {

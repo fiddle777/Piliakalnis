@@ -24,26 +24,8 @@ public class EventManager {
     private final Random rnd = new Random();
 
     public EventManager() {
-        allEvents.add(new Event_EOT_BaseChanges());
-        allEvents.add(new GameOverFood());
-        allEvents.add(new GameOverMorale());
-        allEvents.add(new GameOverPopulation());
-        allEvents.add(new NotificationGold());
-        allEvents.add(new NotificationFood());
-        allEvents.add(new NotificationMorale());
-        allEvents.add(new NotificationPopulation());
-        allEvents.add(new NotificationDefense());
-        allEvents.add(new NotificationFaith());
-        allEvents.add(new GameOverMindaugasRandom());
-        allEvents.add(new GameOverMindaugas());
-        allEvents.add(new FlavourBebruDarba());
-        allEvents.add(new FlavourDrunkards());
-        allEvents.add(new FlavourFire());
-        allEvents.add(new FlavourMissionaries());
-        allEvents.add(new RaidTeutons());
-        allEvents.add(new RaidLivonians());
-        allEvents.add(new RaidLooters());
-        allEvents.add(new RaidCuronians());
+        EventFactory factory = new EventFactory();
+        allEvents.addAll(factory.createDefaultEvents());
     }
 
     public List<EventResult> rollEvents(Piliakalnis p) {
