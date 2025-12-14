@@ -13,12 +13,6 @@ public class EventFactory {
         return List.of(
                 new Event_EOT_BaseChanges(),
 
-                new GameOverFood(),
-                new GameOverMorale(),
-                new GameOverPopulation(),
-                new GameOverMindaugasRandom(),
-                new GameOverMindaugas(),
-
                 new NotificationGold(),
                 new NotificationFood(),
                 new NotificationMorale(),
@@ -34,7 +28,13 @@ public class EventFactory {
                 new RaidTeutons(),
                 new RaidLivonians(),
                 new RaidLooters(),
-                new RaidCuronians()
+                new RaidCuronians(),
+
+                new GameOverFood(),
+                new GameOverMorale(),
+                new GameOverPopulation(),
+                new GameOverMindaugasRandom(),
+                new GameOverMindaugas()
         );
     }
 }
